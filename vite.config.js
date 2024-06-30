@@ -6,10 +6,11 @@ import path from 'path'
 export default defineConfig({
   plugins: [vue()],
   base: process.env.NODE_ENV === "production" ? "/cg-business/" : "/",
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: ['src/main.js', './index.html']
+    }
   },
   assetsInclude: ['**/*.PNG', '**/*.html', '**/*.scss'],
   module: {
