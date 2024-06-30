@@ -3,8 +3,8 @@ import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [vue()],
-  base: process.env.NODE_ENV === 'production' ? '/cg-business/' : '/',
-
+  base: process.env.NODE_ENV === "production" ? "/cg-business/" : "/",
+  publicPath:  process.env.NODE_ENV === "production" ? "/cg-business/" : "/",
   assetsInclude: ['**/*.png'],
   module: {
     rules: [
