@@ -17,6 +17,7 @@ app.use(languageSettings);
 app.component("AppHeader", AppHeader);
 app.component("AppFooter", AppFooter);
 app.component("AppSidebar", AppSidebar);
+
 app.config.globalProperties.$appAxios = appAxios;
 app.config.globalProperties.$filters = filters;
 
