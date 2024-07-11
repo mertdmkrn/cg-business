@@ -1,1 +1,0 @@
-import{_ as t,o,c as a,a as e,t as n}from"./index-BkirMc_b.js";const c={},r={class:"container-xxl flex-grow-1 container-p-y"},i={class:"layout-demo-wrapper"},_={class:"layout-demo-info"};function l(d,f){var s;return o(),a("div",r,[e("div",i,[e("div",_,[e("h4",null,n((s=this.$store.state.business)==null?void 0:s.name),1)])])])}const m=t(c,[["render",l]]);export{m as default};

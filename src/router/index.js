@@ -13,6 +13,11 @@ const routes = [
         component: () => import("../views/Auth/Register.vue")
     },
     {
+        name: "BUSINESSREGISTER",
+        path: "/business-register",
+        component: () => import("../views/Auth/BusinessRegister.vue")
+    },
+    {
         name: "FORGOTPASSWORD",
         path: "/forgot-password",
         component: () => import("../views/Auth/ForgotPassword.vue")
@@ -35,7 +40,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const authNotRequiredRoutes = ["LOGIN", "REGISTER", "FORGOTPASSWORD", "RESETPASSWORD"];
+    const authNotRequiredRoutes = ["LOGIN", "REGISTER", "FORGOTPASSWORD", "RESETPASSWORD", "BUSINESSREGISTER"];
     let isAuthenticated = store.getters._isAuthenticated;
 
     if (!authNotRequiredRoutes.includes(to.name)) {

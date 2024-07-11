@@ -14375,6 +14375,14 @@ html:not([dir=rtl]) .card .card-separator {
   width: 800px !important;
 }
 
+.w-px-900 {
+  width: 900px !important;
+}
+
+.w-px-1000 {
+  width: 1000px !important;
+}
+
 .w-auto {
   width: auto !important;
 }

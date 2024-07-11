@@ -371,7 +371,6 @@
 }
 .light-style .bs-stepper.wizard-modern .bs-stepper-content {
   background-color: #fff;
-  box-shadow: 0 0.1875rem 0.75rem 0 rgba(47, 43, 61, 0.14);
 }
 .light-style .bs-stepper.wizard-icons .bs-stepper-header .bs-stepper-icon svg {
   fill: #444050;
