@@ -7,12 +7,12 @@ export default {
   data(){
         return {
             business: {
-                firstName: "",
-                lastName: "",
-                email: "",
-                telephone: "",
-                password: "",
-                rePassword: ""
+                name: "",
+                website:  "",
+                address: "",
+                mobileServiceOnly: false,
+                serviceIds: [],
+                workerSize: 0
             },
             isSave: false
         }
@@ -85,50 +85,117 @@ export default {
                         <!-- Account Details -->
                         <div id="account-details" class="content h-px-400 active">
                           <div class="content-header mb-4">
-                            <h6 class="mb-0">Account Details</h6>
-                            <small>Enter Your Account Details.</small>
+                            <p class="mb-0">Account Setup</p>
+                            <h4>What' s your business name?</h4>
                           </div>
-                          <div class="row g-6">
-                            <div class="col-sm-6">
-                              <label class="form-label" for="username">Username</label>
-                              <input type="text" id="username" class="form-control" placeholder="johndoe" />
-                            </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="email">Email</label>
+                          <div class="row">
+                            <div class="mb-6">
+                              <label for="businessname" class="form-label">Business Name</label>
                               <input
-                                type="email"
-                                id="email"
+                                v-model="business.name"
+                                type="text"
                                 class="form-control"
-                                placeholder="john.doe@email.com"
-                                aria-label="john.doe" />
+                                id="businessname"
+                                name="businessname"
+                                autofocus
+                              />
                             </div>
-                            <div class="col-sm-6 form-password-toggle">
-                              <label class="form-label" for="password">Password</label>
-                              <div class="input-group input-group-merge">
-                                <input
-                                  type="password"
-                                  id="password"
-                                  class="form-control"
-                                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                  aria-describedby="password2" />
-                                <span class="input-group-text cursor-pointer" id="password2"
-                                  ><i class="ti ti-eye-off"></i
-                                ></span>
-                              </div>
+                            <div class="mb-5">
+                              <label for="website" class="form-label">Website (Optional)</label>
+                              <input
+                                v-model="business.website"
+                                type="text"
+                                class="form-control"
+                                id="website"
+                                name="website"
+                                placeholder="www"
+                              />
                             </div>
-                            <div class="col-sm-6 form-password-toggle">
-                              <label class="form-label" for="confirm-password">Confirm Password</label>
-                              <div class="input-group input-group-merge">
-                                <input
-                                  type="password"
-                                  id="confirm-password"
-                                  class="form-control"
-                                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                  aria-describedby="confirm-password2" />
-                                <span class="input-group-text cursor-pointer" id="confirm-password2"
-                                  ><i class="ti ti-eye-off"></i
-                                ></span>
-                              </div>
+                            <div>
+                              <h4>Where' s your business located?</h4>
+                            </div>
+                            <div class="mb-6">
+                              <label for="address" class="form-label">Business Address</label>
+                              <input
+                                v-model="business.address"
+                                type="text"
+                                class="form-control"
+                                id="address"
+                                name="address"
+                              />
+                            </div>
+                            <div class="mb-6 px-5">
+                              <input
+                                v-model="business.mobileOrOnlineServiceOnly"
+                                type="checkbox"
+                                id="mobileOrOnlineServiceOnly"
+                                name="mobileOrOnlineServiceOnly"
+                              />
+                              &nbsp;I don' t have a business address (Mobile or online service only) 
+                            </div>
+                            <div class="col-12 d-flex justify-content-between">
+                              <button class="btn btn-label-secondary btn-prev" disabled>
+                                <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                              </button>
+                              <button class="btn btn-primary btn-next">
+                                <span class="align-middle d-sm-inline-block d-none me-sm-2">Next</span>
+                                <i class="ti ti-arrow-right ti-xs"></i>
+                              </button>
+                            </div>
+                          </div>
+                      </div>
+                        <!-- Personal Info -->
+                        <div id="personal-info" class="content h-px-400">
+                          <div class="content-header mb-4">
+                            <p class="mb-0">Account Setup</p>
+                            <h4 class="mb-0">What' s your services?</h4>
+                            <span>Choose your primary and up to 4 related service types</span>
+                          </div>
+                          <div class="row">
+                            <div class="mb-6">
+                              <label for="businessname" class="form-label">Business Name</label>
+                              <input
+                                v-model="business.name"
+                                type="text"
+                                class="form-control"
+                                id="businessname"
+                                name="businessname"
+                                autofocus
+                              />
+                            </div>
+                            <div class="mb-5">
+                              <label for="website" class="form-label">Website (Optional)</label>
+                              <input
+                                v-model="business.website"
+                                type="text"
+                                class="form-control"
+                                id="website"
+                                name="website"
+                                placeholder="www"
+                              />
+                            </div>
+                            <div>
+                              <h4>Where' s your business located?</h4>
+                            </div>
+                            <div class="mb-6">
+                              <label for="address" class="form-label">Business Address</label>
+                              <input
+                                v-model="business.address"
+                                type="text"
+                                class="form-control"
+                                id="address"
+                                name="address"
+                              />
+                            </div>
+                            <div class="mb-6 px-5">
+                              <input
+                                v-model="business.mobileOrOnlineServiceOnly"
+                                type="checkbox"
+                                id="mobileOrOnlineServiceOnly"
+                                name="mobileOrOnlineServiceOnly"
+                              />
+                              &nbsp;I don' t have a business address (Mobile or online service only) 
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                               <button class="btn btn-label-secondary btn-prev" disabled>
@@ -142,49 +209,59 @@ export default {
                             </div>
                           </div>
                         </div>
-                        <!-- Personal Info -->
-                        <div id="personal-info" class="content h-px-400">
+                        <!-- Social Links -->
+                        <div id="social-links" class="content h-px-400">
                           <div class="content-header mb-4">
-                            <h6 class="mb-0">Personal Info</h6>
-                            <small>Enter Your Personal Info.</small>
+                            <p class="mb-0">Account Setup</p>
+                            <h4>What' s your team size?</h4>
                           </div>
-                          <div class="row g-6">
-                            <div class="col-sm-6">
-                              <label class="form-label" for="first-name">First Name</label>
-                              <input type="text" id="first-name" class="form-control" placeholder="John" />
+                          <div class="row">
+                            <div class="mb-6">
+                              <label for="businessname" class="form-label">Business Name</label>
+                              <input
+                                v-model="business.name"
+                                type="text"
+                                class="form-control"
+                                id="businessname"
+                                name="businessname"
+                                autofocus
+                              />
                             </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="last-name">Last Name</label>
-                              <input type="text" id="last-name" class="form-control" placeholder="Doe" />
+                            <div class="mb-5">
+                              <label for="website" class="form-label">Website (Optional)</label>
+                              <input
+                                v-model="business.website"
+                                type="text"
+                                class="form-control"
+                                id="website"
+                                name="website"
+                                placeholder="www"
+                              />
                             </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="country">Country</label>
-                              <select class="select2" id="country">
-                                <option label=" "></option>
-                                <option>UK</option>
-                                <option>USA</option>
-                                <option>Spain</option>
-                                <option>France</option>
-                                <option>Italy</option>
-                                <option>Australia</option>
-                              </select>
+                            <div>
+                              <h4>Where' s your business located?</h4>
                             </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="language">Language</label>
-                              <select
-                                class="selectpicker w-auto"
-                                id="language"
-                                data-style="btn-transparent"
-                                data-icon-base="ti"
-                                data-tick-icon="ti-check text-white"
-                                multiple>
-                                <option>English</option>
-                                <option>French</option>
-                                <option>Spanish</option>
-                              </select>
+                            <div class="mb-6">
+                              <label for="address" class="form-label">Business Address</label>
+                              <input
+                                v-model="business.address"
+                                type="text"
+                                class="form-control"
+                                id="address"
+                                name="address"
+                              />
+                            </div>
+                            <div class="mb-6 px-5">
+                              <input
+                                v-model="business.mobileOrOnlineServiceOnly"
+                                type="checkbox"
+                                id="mobileOrOnlineServiceOnly"
+                                name="mobileOrOnlineServiceOnly"
+                              />
+                              &nbsp;I don' t have a business address (Mobile or online service only) 
                             </div>
                             <div class="col-12 d-flex justify-content-between">
-                              <button class="btn btn-label-secondary btn-prev">
+                              <button class="btn btn-label-secondary btn-prev" disabled>
                                 <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
                                 <span class="align-middle d-sm-inline-block d-none">Previous</span>
                               </button>
@@ -192,54 +269,6 @@ export default {
                                 <span class="align-middle d-sm-inline-block d-none me-sm-2">Next</span>
                                 <i class="ti ti-arrow-right ti-xs"></i>
                               </button>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- Social Links -->
-                        <div id="social-links" class="content h-px-400">
-                          <div class="content-header mb-4">
-                            <h6 class="mb-0">Social Links</h6>
-                            <small>Enter Your Social Links.</small>
-                          </div>
-                          <div class="row g-6">
-                            <div class="col-sm-6">
-                              <label class="form-label" for="twitter">Twitter</label>
-                              <input
-                                type="text"
-                                id="twitter"
-                                class="form-control"
-                                placeholder="https://twitter.com/abc" />
-                            </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="facebook">Facebook</label>
-                              <input
-                                type="text"
-                                id="facebook"
-                                class="form-control"
-                                placeholder="https://facebook.com/abc" />
-                            </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="google">Google+</label>
-                              <input
-                                type="text"
-                                id="google"
-                                class="form-control"
-                                placeholder="https://plus.google.com/abc" />
-                            </div>
-                            <div class="col-sm-6">
-                              <label class="form-label" for="linkedin">LinkedIn</label>
-                              <input
-                                type="text"
-                                id="linkedin"
-                                class="form-control"
-                                placeholder="https://linkedin.com/abc" />
-                            </div>
-                            <div class="col-12 d-flex justify-content-between">
-                              <button class="btn btn-label-secondary btn-prev">
-                                <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
-                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                              </button>
-                              <button class="btn btn-success btn-submit">Submit</button>
                             </div>
                           </div>
                         </div>
