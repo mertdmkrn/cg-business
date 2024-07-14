@@ -1,8 +1,7 @@
 
 
 <template>
-    <div v-if="this.$route.name == 'LOGIN' || this.$route.name == 'REGISTER' || this.$route.name == 'FORGOTPASSWORD' || this.$route.name == 'RESETPASSWORD'
-    || this.$route.name == 'BUSINESSREGISTER'">
+    <div v-if="!this.$store.getters._isAuthenticated">
         <router-view></router-view>
     </div>
     <div v-else class="layout-wrapper layout-content-navbar">
