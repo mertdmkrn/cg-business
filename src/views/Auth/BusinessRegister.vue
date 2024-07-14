@@ -2,7 +2,7 @@
   <div class="authentication-wrapper authentication-cover">
     <div class="authentication-inner row m-0">
       <div class="d-none d-lg-flex col-lg-3 p-0">
-        <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
+        <div class="auth-cover-bg-2 auth-cover-bg-color d-flex justify-content-center align-items-lg-center">
           <img
             src="../../assets/img/pages/auth-business-register.png"
             alt="auth-login-cover"
@@ -12,7 +12,7 @@
           />
         </div>
       </div>
-      <div class="d-flex col-12 col-lg-9 align-items-center">
+      <div class="d-flex col-12 col-lg-9 align-items-lg-center">
         <div class="col-12 col-lg-10 mb-6 mx-auto">
           <div class="bs-stepper wizard-modern wizard-numbered mt-0">
             <div class="bs-stepper-header">
@@ -23,7 +23,7 @@
                   </span>
                   <span class="bs-stepper-label">
                     <span class="bs-stepper-title">{{ $t("Business") }}</span>
-                    <span class="bs-stepper-subtitle">{{ $t("EnterYourBusinessDetails") }}</span>
+                    <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("EnterYourBusinessDetails") }}</span>
                   </span>
                 </button>
               </div>
@@ -37,7 +37,7 @@
                   </span>
                   <span class="bs-stepper-label">
                     <span class="bs-stepper-title">{{ $t("Services") }}</span>
-                    <span class="bs-stepper-subtitle">{{ $t("ChooseYourServices") }}</span>
+                    <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("ChooseYourServices") }}</span>
                   </span>
                 </button>
               </div>
@@ -51,15 +51,15 @@
                   </span>
                   <span class="bs-stepper-label">
                     <span class="bs-stepper-title">{{ $t("Team") }}</span>
-                    <span class="bs-stepper-subtitle">{{ $t("EnterYourTeamDetails") }}</span>
+                    <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("EnterYourTeamDetails") }}</span>
                   </span>
                 </button>
               </div>
             </div>
-            <div class="bs-stepper-content">
+            <div class="bs-stepper-content bg-transparent">
               <form>
                 <!-- Account Details -->
-                <div id="account-details" class="content h-px-400" :class="{ 'active': stepNumber === 1 }">
+                <div id="account-details" class="content h-px-700" :class="{ 'active': stepNumber === 1 }">
                   <div class="content-header mb-4">
                     <p class="mb-0">{{ $t("AccountSetup") }}</p>
                     <h4>{{ $t("WhatYourBusinessName") }}</h4>
@@ -84,7 +84,7 @@
                       <input v-model="business.mobileOrOnlineServiceOnly" type="checkbox" id="mobileOrOnlineServiceOnly" name="mobileOrOnlineServiceOnly" />
                       &nbsp;{{ $t("IDontHaveBusinessAddress") }}
                     </div>
-                    <div class="col-12 d-flex justify-content-between mt-1">
+                    <div class="col-12 d-flex justify-content-between mb-6 mt-1">
                       <button type="button" class="btn btn-label-secondary btn-prev" disabled>
                         <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
                         <span class="align-middle d-sm-inline-block d-none">{{ $t("Previous") }}</span>
@@ -97,19 +97,19 @@
                   </div>
                 </div>
                 <!-- Service Details -->
-                <div id="service-details" class="content h-px-400" :class="{ 'active': stepNumber === 2 }">
+                <div id="service-details" class="content h-px-700" :class="{ 'active': stepNumber === 2 }">
                   <div class="content-header mb-4">
                     <p class="mb-0">{{ $t("AccountSetup") }}</p>
                     <h4 class="mb-0">{{ $t("WhatAreYourServices") }}</h4>
                     <span>{{ $t("ChooseYourRelatedServices") }}</span>
                   </div>
                   <div class="row">
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" v-for="item in services" :key="item.id">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4" v-for="item in services" :key="item.id">
                       <div class="form-check custom-option custom-option-basic" :id="item.id">
                         <label class="form-check-label custom-option-content pt-6" :for="`customCheckboxTemp${item.id}`">
                           <input class="form-check-input" type="checkbox" :id="`customCheckboxTemp${item.id}`" @click="toggleService(item.id)"/>
                           <span class="custom-option-header">
-                            <span class="h6 mb-0">{{ this.$store.getters._language === "tr" ? item.name : item.nameEn }}</span>
+                            <span class="h6 mb-0 text-truncate" :title="this.$store.getters._language === 'tr' ? item.name : item.nameEn">{{ this.$store.getters._language === "tr" ? item.name : item.nameEn }}</span>
                             <small class="text-muted" :id="`text-${item.id}`"></small>
                           </span>
                         </label>
@@ -128,7 +128,7 @@
                   </div>
                 </div>
                 <!-- Team Details -->
-                <div id="team-details" class="content h-px-400" :class="{ 'active': stepNumber === 3 }">
+                <div id="team-details" class="content h-px-700" :class="{ 'active': stepNumber === 3 }">
                   <div class="content-header mb-4">
                     <p class="mb-0">{{ $t("AccountSetup") }}</p>
                     <h4>{{ $t("WhatYourTeamSize") }}</h4>
@@ -144,7 +144,7 @@
                         </label>
                       </div>
                     </div>
-                    <div class="col-12 d-flex justify-content-between mt-2">
+                    <div class="col-12 d-flex justify-content-between mb-6 mt-2">
                       <button type="button" class="btn btn-label-secondary btn-prev" @click="stepNumber--">
                         <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
                         <span class="align-middle d-sm-inline-block d-none">{{ $t("Previous") }}</span>
