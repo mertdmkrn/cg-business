@@ -71,14 +71,20 @@
                     </div>
                     <div class="mb-5">
                       <label for="website" class="form-label">Website ({{ $t("Optional") }})</label>
-                      <input v-model="business.website" type="text" class="form-control" id="website" name="website" placeholder="www" />
+                      <div class="input-group input-group-merge">
+                        <span class="input-group-text"><i class="ti ti-world"></i></span>
+                        <input v-model="business.website" type="text" class="form-control" id="website" name="website" placeholder="www" />
+                      </div>
                     </div>
                     <div>
                       <h4>{{ $t("WhereYourBusinessLocated") }}</h4>
                     </div>
                     <div class="mb-6">
                       <label for="address" class="form-label">{{ $t("BusinessAddress") }}</label>
-                      <input v-model="business.address" type="text" class="form-control" id="address" name="address" />
+                      <div class="input-group input-group-merge">
+                        <span class="input-group-text"><i class="ti ti-map-pin"></i></span>
+                        <input v-model="business.address" type="text" class="form-control" id="address" name="address" />
+                      </div>                
                     </div>
                     <div class="mb-6 px-5">
                       <input v-model="business.mobileOrOnlineServiceOnly" type="checkbox" id="mobileOrOnlineServiceOnly" name="mobileOrOnlineServiceOnly" />
