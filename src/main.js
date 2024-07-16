@@ -5,6 +5,7 @@ import store from './store';
 import languageSettings from './utils/languageSettings';
 import { appAxios } from './utils/appAxios';
 import { filters } from './utils/filters';
+import { toastr } from './utils/toastr';
 
 import AppHeader from './components/Shared/appHeader.vue';
 import AppFooter from './components/Shared/appFooter.vue';
@@ -20,5 +21,6 @@ app.component("AppSidebar", AppSidebar);
 
 app.config.globalProperties.$appAxios = appAxios;
 app.config.globalProperties.$filters = filters;
+app.config.globalProperties.$toastr = toastr;
 
 app.mount('#app');

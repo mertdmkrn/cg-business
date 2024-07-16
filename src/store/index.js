@@ -5,34 +5,47 @@ var ls = new SecureLS({ isCompression: false });
 
 export const store = createStore({
     state : {
-        business : null,
+        businessUser : null,
         token : null,
-        language : null
+        language : null,
+        loginUser : null, 
+        resetPasswordEmail : null, 
     },
     mutations : {
-        setBusiness(state, business)
+        setBusinessUser(state, businessUser)
         {
-            state.business = business;
+            state.businessUser = businessUser;
         },
         setToken(state, token)
         {
             state.token = token;
         },
-        logoutBusiness(state)
+        logoutBusinessUser(state)
         {
             state.token = null;
-            state.business = null;
+            state.businessUser = null;
         },
         setLanguage(state, language)
         {
             state.language = language;
         },
+        setLoginUser(state, loginUser)
+        {
+            state.loginUser = loginUser;
+        },
+        setResetPasswordEmail(state, resetPasswordEmail)
+        {
+            state.resetPasswordEmail = resetPasswordEmail;
+        },
     },
     getters : {
-        _isAuthenticated: state => state.business !== null,
-        _currentBusiness: state => state.business,
+        _isAuthenticated: state => state.businessUser !== null,
+        _currentBusiness: state => state.businessUser?.business,
+        _isBusinessRegistered: state => state.businessUser !== null && state.businessUser.business !== null,
         _token: state => state.token,
         _language: state => state.language,
+        _loginUser: state => state.loginUser,
+        _resetPasswordEmail: state => state.resetPasswordEmail
     },
     plugins: [createPersistedState({
         storage: {

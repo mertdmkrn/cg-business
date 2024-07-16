@@ -24,7 +24,7 @@ const routes = [
     },
     {
         name: "RESETPASSWORD",
-        path: "/reset-password",
+        path: "/reset-password/:id",
         component: () => import("../views/Auth/ResetPassword.vue")
     },
     {
@@ -40,19 +40,36 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const authNotRequiredRoutes = ["LOGIN", "REGISTER", "FORGOTPASSWORD", "RESETPASSWORD", "BUSINESSREGISTER"];
+    const authNotRequiredRoutes = ["LOGIN", "REGISTER", "FORGOTPASSWORD", "RESETPASSWORD"];
     let isAuthenticated = store.getters._isAuthenticated;
-
-    if (!authNotRequiredRoutes.includes(to.name)) {
-        if (!isAuthenticated) {
-            next({ path: "/login" });
+    let isBusinessRegistered = store.getters._isBusinessRegistered;
+    
+    if (authNotRequiredRoutes.includes(to.name)) {
+        if (isAuthenticated) {
+            if (isBusinessRegistered) {
+                next({ path: "/" });
+            } else {
+                next({ path: "/business-register" });
+            }
         } else {
             next();
         }
     } else {
-        if(isAuthenticated) next(false);
-        else next();
+        if (isAuthenticated) {
+            if (isBusinessRegistered) {
+                next();
+            } else {
+                if(to.fullPath !== "/business-register") {
+                    next({ path: "/business-register" });
+                } else {
+                    next();
+                }
+            }
+        } else {
+            next({ path: "/login" });
+        }
     }
+    
 });
 
 export default router;

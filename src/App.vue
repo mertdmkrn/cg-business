@@ -1,7 +1,7 @@
 
 
 <template>
-    <div v-if="!this.$store.getters._isAuthenticated">
+    <div v-if="!this.$store.getters._isAuthenticated || !this.$store.getters._isBusinessRegistered">
         <router-view></router-view>
     </div>
     <div v-else class="layout-wrapper layout-content-navbar">
@@ -20,7 +20,16 @@
         <div class="layout-overlay layout-menu-toggle"></div>
         <div class="drag-target"></div>
    </div>    
+   <ToastifyContainer/>
 </template>
 
 
+<script>
+import { ToastifyContainer } from 'vue3-toastify';
 
+export default {
+  components: {
+    ToastifyContainer
+  }
+};
+</script>

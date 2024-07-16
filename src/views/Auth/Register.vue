@@ -6,15 +6,103 @@ export default {
   },
   data() {
     return {
-      business: {
+      businessUser: {
         firstName: "",
         lastName: "",
+        fullName: "",
         email: "",
         telephone: "",
         password: "",
-        rePassword: ""
+        retryPassword: ""
       },
-      isSave: false
+      code1: "",
+      code2: "",
+      code3: "",
+      code4: "",
+      firstStepDone: false
+    }
+  },
+  methods: {
+    async sendSmsCode(hasValidate) {
+      try {  
+        if(hasValidate)
+        {
+          this.businessUser.fullName = `${this.businessUser.firstName} ${this.businessUser.lastName}`;
+          const validateResponse = await this.$appAxios.post("/businessuser/validate", this.businessUser);
+          let hasError = validateResponse?.data?.hasError;
+
+          if (hasError) {
+            this.$toastr.error(`${validateResponse?.data?.message}<hr>${validateResponse?.data?.validationErrors.map(obj => `${obj.key}: ${obj.value}`).join('<hr>')}`);
+            return;
+          }
+        }
+
+        const response = await this.$appAxios.post("/user/sendtelephoneconfirmationcode", this.businessUser.telephone.replace(" ", ""));
+        let hasError = response?.data?.hasError;
+
+        if (hasError) {
+          this.$toastr.warning(response?.data?.message);
+        } else
+        {
+          this.$toastr.success(response?.data?.message);
+          this.firstStepDone = true;
+        }
+
+      } catch (error) {
+        this.$toastr.error(this.$t("ErrorMessage"));
+      }
+    },
+    async verifiedSmsCode()
+    {
+      try{  
+
+        const verifiedSmsCodeRequestBody = {
+          target: this.businessUser.telephone.replace(" ", ""),
+          code: this.code1 + this.code2 + this.code3 + this.code4
+        }
+
+        const response = await this.$appAxios.post("/user/verifyconfirmationcode", verifiedSmsCodeRequestBody);
+        let hasError = response?.data?.hasError;
+
+        if (hasError) {
+          this.$toastr.warning(response?.data?.message);
+        } else
+        {
+          this.save();
+        }
+
+      } catch (error) {
+        this.$toastr.error(this.$t("ErrorMessage"));
+      }
+    },
+    async save()
+    {
+      this.businessUser.telephone = this.businessUser.telephone.replace(" ", "");
+      const response = await this.$appAxios.post("/businessuser/save", this.businessUser);
+      let hasError = response?.data?.hasError;
+      const token = response?.data?.data?.token;
+
+      if (hasError || !token) {
+        this.$toastr.error(response?.data?.message);
+        return;
+      }
+
+      this.$toastr.success(response?.data?.message);
+
+      this.$store.commit("setToken", token);
+
+      const businessUserResponse = await this.$appAxios.post("/businessuser/get", null, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      hasError = businessUserResponse?.data?.hasError;
+      const businessUser = businessUserResponse?.data?.data;
+
+      this.$store.commit("setBusinessUser", businessUser);
+
+      setTimeout(() => {
+          this.$router.push({ path: '/business-register' });
+      }, 2000);
     }
   },
 }
@@ -30,7 +118,7 @@ export default {
         </div>
       </div>
 
-      <div v-if="!isSave" class="d-flex col-12 col-lg-4 align-items-center p-sm-12 p-6">
+      <div v-if="!firstStepDone" class="d-flex col-12 col-lg-4 align-items-center p-sm-12 p-6">
         <div class="w-px-400 mx-auto pt-5">
           <h4 class="mb-1">{{ $t("AdventureStartsHere") }}</h4>
           <p class="mb-6">{{ $t("CreateAnAccountRegister") }}</p>
@@ -38,28 +126,28 @@ export default {
           <form id="formAuthentication" class="mb-6">
             <div class="mb-6">
               <label for="firstname" class="form-label">{{ $t("FirstName") }}</label>
-              <input v-model="business.firstName" type="text" class="form-control" id="firstname" name="firstname"
+              <input v-model="businessUser.firstName" type="text" class="form-control" id="firstname" name="firstname"
                 :placeholder="$t('EnterYourFirstName')" autofocus />
             </div>
             <div class="mb-6">
               <label for="lastname" class="form-label">{{ $t("LastName") }}</label>
-              <input v-model="business.lastName" type="text" class="form-control" id="lastname" name="lastname"
+              <input v-model="businessUser.lastName" type="text" class="form-control" id="lastname" name="lastname"
                 :placeholder="$t('EnterYourLastName')" />
             </div>
             <div class="mb-6">
               <label for="email" class="form-label">{{ $t("Email") }}</label>
-              <input v-model="business.email" type="text" class="form-control" id="email" name="email"
+              <input v-model="businessUser.email" type="text" class="form-control" id="email" name="email"
                 :placeholder="$t('EnterYourEmail')" />
             </div>
             <div class="mb-6">
               <label for="telephone" class="form-label">{{ $t("MobileNumber") }}</label>
-              <input v-model="business.telephone" type="text" class="form-control" id="telephone" name="telephone"
+              <input v-model="businessUser.telephone" type="text" class="form-control" id="telephone" name="telephone"
                 placeholder="05xx xxxx xx xx" />
             </div>
             <div class="mb-6 form-password-toggle">
               <label class="form-label" for="password">{{ $t("Password") }}</label>
               <div class="input-group input-group-merge">
-                <input v-model="business.password" type="password" id="password" class="form-control" name="password"
+                <input v-model="businessUser.password" type="password" id="password" class="form-control" name="password"
                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
@@ -67,9 +155,9 @@ export default {
             <div class="mb-6 form-password-toggle">
               <label class="form-label" for="password">{{ $t("RePassword") }}</label>
               <div class="input-group input-group-merge">
-                <input v-model="business.rePassword" type="password" id="repassword" class="form-control"
-                  name="repassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  aria-describedby="repassword" />
+                <input v-model="businessUser.retryPassword" type="password" id="retryPassword" class="form-control"
+                  name="retryPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                  aria-describedby="retryPassword" />
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
             </div>
@@ -82,7 +170,7 @@ export default {
                 </label>
               </div>
             </div>
-            <button class="btn btn-primary d-grid w-100">{{ $t("SignUp") }}</button>
+            <button type="button" @click="sendSmsCode(true)" class="btn btn-primary d-grid w-100">{{ $t("SignUp") }}</button>
           </form>
 
           <p class="text-center">
@@ -99,27 +187,27 @@ export default {
           <h4 class="mb-1">{{ $t("TwoStepVerification") }}</h4>
           <p class="text-start mb-6">
             {{ $t("TwoStepVerificationSpot") }}
-            <span class="fw-medium d-block mt-1 text-heading">******1234</span>
+            <span class="fw-medium d-block mt-1 text-heading">{{ this.businessUser.telephone.replace(" ", "") }}</span>
           </p>
           <p class="mb-0">{{ $t("SecurityCodeText") }}</p>
-          <form id="twoStepsForm" action="index.html" method="GET">
+          <form id="twoStepsForm">
             <div class="mb-6">
               <div class="auth-input-wrapper d-flex align-items-center justify-content-between numeral-mask-wrapper">
-                <input type="tel" class="form-control auth-input h-px-50 text-center numeral-mask my-3" maxlength="1"
+                <input type="tel" v-model="code1" class="form-control auth-input h-px-50 text-center numeral-mask my-3" maxlength="1"
                   autofocus />
-                <input type="tel" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
+                <input type="tel" v-model="code2" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
                   maxlength="1" />
-                <input type="tel" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
+                <input type="tel" v-model="code3" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
                   maxlength="1" />
-                <input type="tel" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
+                <input type="tel" v-model="code4" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
                   maxlength="1" />
               </div>
               <input type="hidden" name="otp" />
             </div>
-            <button class="btn btn-primary d-grid w-100 mb-6">{{ $t("VerifyMyAccount") }}</button>
+            <button type="button" @click="verifiedSmsCode" class="btn btn-primary d-grid w-100 mb-6">{{ $t("VerifyMyAccount") }}</button>
             <div class="text-center">
               {{ $t("DidntGetTheCode") }}
-              <a href="javascript:void(0);">{{ $t("Resend") }}</a>
+              <a href="javascript:void(0);" @click="sendSmsCode">{{ $t("Resend") }}</a>
             </div>
           </form>
         </div>

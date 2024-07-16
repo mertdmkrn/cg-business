@@ -368,7 +368,7 @@
                     <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
                         data-bs-toggle="dropdown">
                         <div class="avatar avatar-online">
-                            <img v-if="this.$store.state.business?.logoUrl != null" :src="this.$store.state.business?.logoUrl" class="rounded-circle">
+                            <img v-if="this.$store.getters._currentBusiness?.logoUrl != null" :src="this.$store.getters._currentBusiness?.logoUrl" class="rounded-circle">
                             <img v-else src="../../assets/img/avatars/1.png" class="rounded-circle" />
                         </div>
                     </a>
@@ -378,12 +378,12 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 me-2">
                                         <div class="avatar avatar-online">
-                                            <img v-if="this.$store.state.business?.logoUrl != null" :src="this.$store.state.business?.logoUrl" class="rounded-circle">
+                                            <img v-if="this.$store.getters._currentBusiness?.logoUrl != null" :src="this.$store.getters._currentBusiness?.logoUrl" class="rounded-circle">
                                             <img v-else src="../../assets/img/avatars/1.png" class="rounded-circle" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h6 class="mb-0">{{ this.$store.state.business?.name }}</h6>
+                                        <h6 class="mb-0">{{ this.$store.getters._currentBusiness?.name }}</h6>
                                         <small class="text-muted">Admin</small>
                                     </div>
                                 </div>
@@ -437,7 +437,7 @@ export default {
   },
   methods: {
     onLogout() {
-        this.$store.commit("logoutBusiness");
+        this.$store.commit("logoutBusinessUser");
         this.$router.push({ path: '/login' });
     },
     changeLanguage(value) {

@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <template>
   <div class="authentication-wrapper authentication-cover">
     <div class="authentication-inner row m-0">
@@ -26,10 +23,11 @@
                   class="form-control"
                   id="email"
                   name="email"
+                  v-model="email"
                   :placeholder="$t('EnterYourEmail')"
                   autofocus />
               </div>
-              <button class="btn btn-primary d-grid w-100">{{ $t("SendResetLink") }}</button>
+              <button type="button" @click="SendPasswordResetLink" class="btn btn-primary d-grid w-100">{{ $t("SendResetLink") }}</button>
             </form>
             <div class="text-center">
               <router-link :to="'/login'" class="d-flex align-items-center justify-content-center">
@@ -42,6 +40,35 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+        email: "",
+    }
+  },
+  methods: {
+    async SendPasswordResetLink() {
+      try {  
+        const response = await this.$appAxios.post("/businessuser/sendpasswordresetlink", this.email);
+        let hasError = response?.data?.hasError;
+        this.$store.commit("setResetPasswordEmail", this.email);
+
+        if (hasError) {
+          this.$toastr.warning(response?.data?.message);
+        } else
+        {
+          this.$toastr.success(response?.data?.message);
+        }
+
+      } catch (error) {
+        this.$toastr.error(this.$t("ErrorMessage"));
+      }
+    }
+  },
+};
+</script>
 
 
 <style scoped>

@@ -64,5 +64,6 @@
   "Save": "Kaydet",
   "ItJustMe": "Sadece benim",
   "People": "kişi",
-  "Done": "Tamamla"
+  "Done": "Tamamla",
+  "ErrorMessage": "Bir hata oluştu!"
 }

@@ -64,5 +64,6 @@
   "Save": "Save",
   "ItJustMe": "It' s just me",
   "People": "people",
-  "Done": "Done"
+  "Done": "Done",
+  "ErrorMessage": "An error occurred!"
 }

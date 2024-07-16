@@ -105,6 +105,12 @@
                         <i class="ti ti-arrow-right ti-xs"></i>
                       </button>
                     </div>
+                    <div class="text-center">
+                      <router-link @click="onLogout" :to="'/login'" class="d-flex align-items-center justify-content-center">
+                        <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
+                        {{ $t("BackToLogin") }}
+                      </router-link>
+                    </div>
                   </div>
                 </div>
                 <!-- Service Details -->
@@ -139,6 +145,12 @@
                         <i class="ti ti-arrow-right ti-xs"></i>
                       </button>
                     </div>
+                    <div class="text-center">
+                      <router-link @click="onLogout" :to="'/login'" class="d-flex align-items-center justify-content-center">
+                        <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
+                        {{ $t("BackToLogin") }}
+                      </router-link>
+                    </div>
                   </div>
                 </div>
                 <!-- Team Details -->
@@ -152,7 +164,7 @@
                       <div class="form-check custom-option custom-option-basic">
                         <label class="form-check-label custom-option-content pt-6" :for="`customRadioTemp${index + 1}`">
                           <input name="customRadioTemp" :value="index + 1" class="form-check-input" type="radio"
-                            :id="`customRadioTemp${index + 1}`" v-model="business.workerSize" />
+                            :id="`customRadioTemp${index + 1}`" v-model="business.workerSizeType" />
                           <span class="custom-option-header">
                             <span class="h6 mb-0">{{ item }}</span>
                           </span>
@@ -164,9 +176,15 @@
                         <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
                         <span class="align-middle d-sm-inline-block d-none">{{ $t("Previous") }}</span>
                       </button>
-                      <button type="button" :disabled="!stepDone" class="btn btn-primary btn-submit">
+                      <button type="button" :disabled="!stepDone" @click="save" class="btn btn-primary btn-submit">
                         {{ $t("Done") }}
                       </button>
+                    </div>
+                    <div class="text-center">
+                      <router-link @click="onLogout" :to="'/login'" class="d-flex align-items-center justify-content-center">
+                        <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
+                        {{ $t("BackToLogin") }}
+                      </router-link>
                     </div>
                   </div>
                 </div>
@@ -180,6 +198,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   mounted() {
     this.getServices();
@@ -191,8 +211,9 @@ export default {
         website: "",
         address: "",
         mobileOrOnlineServiceOnly: false,
-        serviceIds: [],
-        workerSize: 0,
+        serviceIdArr: [],
+        serviceIds: "",
+        workerSizeType: 0,
       },
       isSave: false,
       stepNumber: 1,
@@ -211,37 +232,70 @@ export default {
     async getServices() {
       try {
         const response = await this.$appAxios.post("/service/getall");
-        this.services = response.data.data;
+        this.services = response?.data?.data;
       } catch (e) {
-        alert(e.message);
+        this.$toastr.error(this.$t("ErrorMessage"));
       }
     },
+    async save()
+    {
+      this.business.serviceIds = this.business.serviceIdArr.join(";");
+      const response = await this.$appAxios.post("/business/save", this.business, {
+        headers: { 'Authorization': `Bearer ${this._token}` }
+      });
+
+      let hasError = response?.data?.hasError;
+
+      if (hasError) {
+        this.$toastr.error(`${response?.data?.message}<hr>${response?.data?.validationErrors.map(obj => `${obj.key}: ${obj.value}`).join('<hr>')}`);
+        return;
+      }
+
+      this.$toastr.success(response?.data?.message);
+
+      const businessUserResponse = await this.$appAxios.post("/businessuser/get", null, {
+        headers: { 'Authorization': `Bearer ${this._token}` }
+      });
+
+      hasError = businessUserResponse?.data?.hasError;
+      const businessUser = businessUserResponse?.data?.data;
+
+      this.$store.commit("setBusinessUser", businessUser);
+
+      setTimeout(() => {
+          this.$router.push({ path: '/' });
+      }, 2000);
+    },
     toggleService(serviceId) {
-      const index = this.business.serviceIds.indexOf(serviceId);
+      const index = this.business.serviceIdArr.indexOf(serviceId);
 
       if (index === -1) {
-        if (this.business.serviceIds.length === 5) {
-          const lastServiceId = this.business.serviceIds[4];
-          this.business.serviceIds.splice(4, 1);
+        if (this.business.serviceIdArr.length === 5) {
+          const lastServiceId = this.business.serviceIdArr[4];
+          this.business.serviceIdArr.splice(4, 1);
           $(`#${lastServiceId}`).removeClass("checked");
           $(`#customCheckboxTemp${lastServiceId}`).prop('checked', false);
           $(`#text-${lastServiceId}`).text("");
         }
 
-        this.business.serviceIds.push(serviceId);
+        this.business.serviceIdArr.push(serviceId);
         $(`#${serviceId}`).addClass("checked");
-        let text = this.business.serviceIds.length <= 1 ? this.$t("Primary") : this.business.serviceIds.length - 1;
+        let text = this.business.serviceIdArr.length <= 1 ? this.$t("Primary") : this.business.serviceIdArr.length - 1;
         $(`#text-${serviceId}`).text(text);
       } else {
-        this.business.serviceIds.splice(index, 1);
+        this.business.serviceIdArr.splice(index, 1);
         $(`#${serviceId}`).removeClass("checked");
         $(`#text-${serviceId}`).text("");
 
-        for (let i = 0; i < this.business.serviceIds.length; i++) {
-          $(`#text-${this.business.serviceIds[i]}`).text(i === 0 ? this.$t("Primary") : i);
+        for (let i = 0; i < this.business.serviceIdArr.length; i++) {
+          $(`#text-${this.business.serviceIdArr[i]}`).text(i === 0 ? this.$t("Primary") : i);
         }
       }
-    }
+    },
+    onLogout() {
+      this.$store.commit("logoutBusinessUser");
+      this.$router.push({ path: '/login' });
+    },
   },
   computed: {
     stepDone() {
@@ -249,13 +303,14 @@ export default {
         case 1:
           return this.business.name && (this.business.address || this.business.mobileOrOnlineServiceOnly);
         case 2:
-          return this.business.serviceIds && this.business.serviceIds.length > 0;
+          return this.business.serviceIdArr && this.business.serviceIdArr.length > 0;
         case 3:
-          return this.business.workerSize > 0;
+          return this.business.workerSizeType > 0;
         default:
           return false;
       }
     },
+    ...mapGetters(["_token"])
   },
 };
 </script>
