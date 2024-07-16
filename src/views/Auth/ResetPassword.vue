@@ -15,6 +15,10 @@ export default {
   mounted(){
     initPasswordToggle();
     this.existsPasswordResetLink();
+    document.body.style.overflow = 'hidden';
+  },
+  unmounted() {
+    document.body.style.overflow = 'auto';
   },
   methods: {
     async existsPasswordResetLink() {

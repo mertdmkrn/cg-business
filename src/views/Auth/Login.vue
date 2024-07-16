@@ -62,6 +62,10 @@ import { initPasswordToggle } from '../../assets/js/helpers.js';
 export default {
   mounted() {
     initPasswordToggle();
+    document.body.style.overflow = 'hidden';
+  },
+  unmounted() {
+    document.body.style.overflow = 'auto';
   },
   data() {
     return {

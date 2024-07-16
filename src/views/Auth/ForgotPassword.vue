@@ -48,6 +48,12 @@ export default {
         email: "",
     }
   },
+  mounted() {
+    document.body.style.overflow = 'hidden';
+  },
+  unmounted() {
+    document.body.style.overflow = 'auto';
+  },
   methods: {
     async SendPasswordResetLink() {
       try {  
