@@ -123,32 +123,28 @@ export default {
           <h4 class="mb-1">{{ $t("AdventureStartsHere") }}</h4>
           <p class="mb-6">{{ $t("CreateAnAccountRegister") }}</p>
 
-          <form id="formAuthentication" class="mb-6">
+          <form id="formAuthentication" @submit.prevent="sendSmsCode(true)" class="mb-6">
             <div class="mb-6">
               <label for="firstname" class="form-label">{{ $t("FirstName") }}</label>
-              <input v-model="businessUser.firstName" type="text" class="form-control" id="firstname" name="firstname"
-                :placeholder="$t('EnterYourFirstName')" autofocus />
+              <input v-model="businessUser.firstName" type="text" class="form-control" id="firstname" :placeholder="$t('EnterYourFirstName')" autofocus required/>
             </div>
             <div class="mb-6">
               <label for="lastname" class="form-label">{{ $t("LastName") }}</label>
-              <input v-model="businessUser.lastName" type="text" class="form-control" id="lastname" name="lastname"
-                :placeholder="$t('EnterYourLastName')" />
+              <input v-model="businessUser.lastName" type="text" class="form-control" id="lastname" :placeholder="$t('EnterYourLastName')" required/>
             </div>
             <div class="mb-6">
               <label for="email" class="form-label">{{ $t("Email") }}</label>
-              <input v-model="businessUser.email" type="text" class="form-control" id="email" name="email"
-                :placeholder="$t('EnterYourEmail')" />
+              <input v-model="businessUser.email" type="email" class="form-control" id="email" :placeholder="$t('EnterYourEmail')" required/>
             </div>
             <div class="mb-6">
               <label for="telephone" class="form-label">{{ $t("MobileNumber") }}</label>
-              <input v-model="businessUser.telephone" type="text" class="form-control" id="telephone" name="telephone"
-                placeholder="05xx xxxx xx xx" />
+              <input v-model="businessUser.telephone" type="tel" class="form-control" id="telephone" placeholder="+905xxxxxxxxxx" required/>
             </div>
             <div class="mb-6 form-password-toggle">
               <label class="form-label" for="password">{{ $t("Password") }}</label>
               <div class="input-group input-group-merge">
-                <input v-model="businessUser.password" type="password" id="password" class="form-control" name="password"
-                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                <input v-model="businessUser.password" type="password" id="password" class="form-control"
+                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
             </div>
@@ -157,7 +153,7 @@ export default {
               <div class="input-group input-group-merge">
                 <input v-model="businessUser.retryPassword" type="password" id="retryPassword" class="form-control"
                   name="retryPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  aria-describedby="retryPassword" />
+                  aria-describedby="retryPassword" required/>
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
             </div>
@@ -170,7 +166,7 @@ export default {
                 </label>
               </div>
             </div>
-            <button type="button" @click="sendSmsCode(true)" class="btn btn-primary d-grid w-100">{{ $t("SignUp") }}</button>
+            <button class="btn btn-primary d-grid w-100">{{ $t("SignUp") }}</button>
           </form>
 
           <p class="text-center">
@@ -190,21 +186,21 @@ export default {
             <span class="fw-medium d-block mt-1 text-heading">{{ this.businessUser.telephone.replace(" ", "") }}</span>
           </p>
           <p class="mb-0">{{ $t("SecurityCodeText") }}</p>
-          <form id="twoStepsForm">
+          <form id="twoStepsForm" @submit.prevent="verifiedSmsCode">
             <div class="mb-6">
               <div class="auth-input-wrapper d-flex align-items-center justify-content-between numeral-mask-wrapper">
                 <input type="tel" v-model="code1" class="form-control auth-input h-px-50 text-center numeral-mask my-3" maxlength="1"
-                  autofocus />
+                  autofocus required/>
                 <input type="tel" v-model="code2" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
-                  maxlength="1" />
+                  maxlength="1" required/>
                 <input type="tel" v-model="code3" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
-                  maxlength="1" />
+                  maxlength="1" required/>
                 <input type="tel" v-model="code4" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
-                  maxlength="1" />
+                  maxlength="1" required/>
               </div>
               <input type="hidden" name="otp" />
             </div>
-            <button type="button" @click="verifiedSmsCode" class="btn btn-primary d-grid w-100 mb-6">{{ $t("VerifyMyAccount") }}</button>
+            <button class="btn btn-primary d-grid w-100 mb-6">{{ $t("VerifyMyAccount") }}</button>
             <div class="text-center">
               {{ $t("DidntGetTheCode") }}
               <a href="javascript:void(0);" @click="sendSmsCode">{{ $t("Resend") }}</a>

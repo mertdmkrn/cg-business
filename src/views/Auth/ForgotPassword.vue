@@ -15,19 +15,19 @@
           <div class="w-px-400 mx-auto mt-12 mt-5">
             <h4 class="mb-1">{{ $t("ForgotPasswordTitle") }}</h4>
             <p class="mb-6">{{ $t("ForgotPasswordSpot") }}</p>
-            <form id="formAuthentication" class="mb-6">
+            <form id="formAuthentication" class="mb-6" @submit.prevent="SendPasswordResetLink">
               <div class="mb-6">
                 <label for="email" class="form-label">{{ $t("Email") }}</label>
                 <input
-                  type="text"
+                  type="email"
                   class="form-control"
                   id="email"
-                  name="email"
                   v-model="email"
                   :placeholder="$t('EnterYourEmail')"
+                  required
                   autofocus />
               </div>
-              <button type="button" @click="SendPasswordResetLink" class="btn btn-primary d-grid w-100">{{ $t("SendResetLink") }}</button>
+              <button :disabled="!(email)" class="btn btn-primary d-grid w-100">{{ $t("SendResetLink") }}</button>
             </form>
             <div class="text-center">
               <router-link :to="'/login'" class="d-flex align-items-center justify-content-center">
@@ -59,12 +59,12 @@ export default {
       try {  
         const response = await this.$appAxios.post("/businessuser/sendpasswordresetlink", this.email);
         let hasError = response?.data?.hasError;
-        this.$store.commit("setResetPasswordEmail", this.email);
 
         if (hasError) {
           this.$toastr.warning(response?.data?.message);
         } else
         {
+          this.$store.commit("setResetPasswordEmail", this.email);
           this.$toastr.success(response?.data?.message);
         }
 

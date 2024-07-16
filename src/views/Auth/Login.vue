@@ -15,15 +15,15 @@
           <form class="mb-6 fv-plugins-bootstrap5 fv-plugins-framework" @submit.prevent="onLogin">
             <div class="mb-6 fv-plugins-icon-container">
               <label for="email" class="form-label">{{ $t("Email") }}</label>
-              <input type="text" class="form-control" id="email" name="email" v-model="businessUser.email"
-                :placeholder="$t('EnterYourEmail')" autofocus />
+              <input type="email" class="form-control" id="email" name="email" v-model="businessUser.email"
+                :placeholder="$t('EnterYourEmail')" autofocus required/>
               <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
             </div>
             <div class="mb-6 form-password-toggle fv-plugins-icon-container">
               <label class="form-label" for="password">{{ $t("Password") }}</label>
               <div class="input-group input-group-merge has-validation">
                 <input type="password" id="password" class="form-control" v-model="businessUser.password" name="password"
-                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
               <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
@@ -106,6 +106,7 @@ export default {
           this.$store.commit("setBusinessUser", businessUser);
           if (businessUser.business) {
             this.$router.push({ path: '/' });
+            window.location.reload();
           } else {
             this.$router.push({ path: '/business-register' });
           }

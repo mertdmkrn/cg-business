@@ -84,7 +84,7 @@ export default {
             <p class="mb-6">
               <span class="fw-medium">{{ $t("ResetPasswordSpot") }}</span>
             </p>
-            <form id="formAuthentication" class="mb-6">
+            <form id="formAuthentication" @submit.prevent="resetPassword" class="mb-6">
               <div class="mb-6 form-password-toggle">
                 <label class="form-label" for="password">{{ $t("Password") }}</label>
                 <div class="input-group input-group-merge">
@@ -96,7 +96,7 @@ export default {
                     v-model="passwordInfo.password"
                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                     aria-describedby="password" 
-                    required/>
+                    required />
                   <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                 </div>
               </div>
@@ -111,11 +111,11 @@ export default {
                     v-model="passwordInfo.retryPassword"
                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                     aria-describedby="password" 
-                    required/>
+                    required />
                   <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                 </div>
               </div>
-              <button type="button" @click="resetPassword" class="btn btn-primary d-grid w-100 mb-6">{{ $t("SetNewPassword") }}</button>
+              <button class="btn btn-primary d-grid w-100 mb-6">{{ $t("SetNewPassword") }}</button>
               <div class="text-center">
               <router-link :to="'/login'" class="d-flex align-items-center justify-content-center">
                 <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>

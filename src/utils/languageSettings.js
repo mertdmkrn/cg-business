@@ -16,7 +16,9 @@ let locale = availableLocales.includes(browserLocale) ? browserLocale : 'en';
 if(language) {
   locale = availableLocales.includes(browserLocale) ? language : browserLocale;
 }
-
+else {
+  store.commit("setLanguage", locale);
+}
 
 export default createI18n({
   locale: locale,
