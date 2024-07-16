@@ -37,7 +37,7 @@ export default {
           }
         }
 
-        const response = await this.$appAxios.post("/user/sendtelephoneconfirmationcode", this.businessUser.telephone.replace(" ", ""));
+        const response = await this.$appAxios.post("/businessuser/sendtelephoneconfirmationcode", this.businessUser.telephone.replace(" ", ""));
         let hasError = response?.data?.hasError;
 
         if (hasError) {
