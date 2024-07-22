@@ -3,7 +3,7 @@ import router from '../router';
 import store from '../store';
 
 export const appAxios = axios.create({
-    baseURL: "https://cgappapi-ff676d91c2d7.herokuapp.com",
+    baseURL: "https://cgapi-f892d01b36c3.herokuapp.com",
     headers: {
       "Content-Type": "application/json",
       "Language" : store.getters._language || "en",
