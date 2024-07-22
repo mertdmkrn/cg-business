@@ -257,13 +257,19 @@ export default {
         headers: { 'Authorization': `Bearer ${this._token}` }
       });
 
-      hasError = businessUserResponse?.data?.hasError;
+      const businessUserHasError = businessUserResponse?.data?.hasError;
+
+      if (businessUserHasError) {
+        this.$toastr.error(businessUserResponse?.data?.message);
+        return;
+      }
+
       const businessUser = businessUserResponse?.data?.data;
 
-      this.$store.commit("setBusinessUser", businessUser);
-
       setTimeout(() => {
-          this.$router.push({ path: '/' });
+        this.$store.commit("setBusinessUser", businessUser);
+        this.$router.push({ path: '/' });
+        window.location.reload();
       }, 2000);
     },
     toggleService(serviceId) {

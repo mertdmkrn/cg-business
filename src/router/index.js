@@ -43,33 +43,25 @@ router.beforeEach((to, from, next) => {
     const authNotRequiredRoutes = ["LOGIN", "REGISTER", "FORGOTPASSWORD", "RESETPASSWORD"];
     let isAuthenticated = store.getters._isAuthenticated;
     let isBusinessRegistered = store.getters._isBusinessRegistered;
-    
+
     if (authNotRequiredRoutes.includes(to.name)) {
         if (isAuthenticated) {
-            if (isBusinessRegistered) {
-                next({ path: "/" });
-            } else {
-                next({ path: "/business-register" });
-            }
+            next({ path: isBusinessRegistered ? "/" : "/business-register" });
         } else {
             next();
         }
     } else {
         if (isAuthenticated) {
             if (isBusinessRegistered) {
-                next();
+                next(isBusinessRegistered && to.name === "BUSINESSREGISTER"  ? { path: "/" } : true);
             } else {
-                if(to.fullPath !== "/business-register") {
-                    next({ path: "/business-register" });
-                } else {
-                    next();
-                }
+                next(to.name !== "BUSINESSREGISTER" ? { path: "/business-register" } : true);
             }
         } else {
             next({ path: "/login" });
         }
     }
-    
 });
+
 
 export default router;
