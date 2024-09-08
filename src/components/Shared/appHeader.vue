@@ -1,5 +1,5 @@
 <template>
-    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xxl navbar-detached align-items-center bg-navbar-theme"
         id="layout-navbar">
         <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -29,12 +29,14 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" :class="currentLanguage == 'en' ? 'waves-effect active' : ''" href="javascript:void(0);" @click="changeLanguage('en')">
+                            <a class="dropdown-item" :class="currentLanguage == 'en' ? 'waves-effect active' : ''"
+                                href="javascript:void(0);" @click="changeLanguage('en')">
                                 <span> {{ $t("English") }} </span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" :class="currentLanguage == 'tr' ? 'waves-effect active' : ''" href="javascript:void(0);" @click="changeLanguage('tr')">
+                            <a class="dropdown-item" :class="currentLanguage == 'tr' ? 'waves-effect active' : ''"
+                                href="javascript:void(0);" @click="changeLanguage('tr')">
                                 <span>{{ $t("Turkish") }}</span>
                             </a>
                         </li>
@@ -59,21 +61,25 @@
                                         class="ti ti-plus text-heading"></i></a>
                             </div>
                         </div>
-                        <div class="dropdown-shortcuts-list scrollable-container">
+                        <div class="dropdown-shortcuts-list scrollable-container" style="max-height: none !important;">
                             <div class="row row-bordered overflow-visible g-0">
+                                <div class="dropdown-shortcuts-item col">
+                                    <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                        <i class="ti ti-calendar-plus ti-26px text-heading"></i>
+                                    </span>
+                                    <a href="javascript:void(0);" class="stretched-link">{{
+                                        $t("NewAppointment") }}</a>
+                                    <small>{{ $t("AddManually") }}</small>
+                                </div>
                                 <div class="dropdown-shortcuts-item col">
                                     <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                                         <i class="ti ti-calendar ti-26px text-heading"></i>
                                     </span>
-                                    <a href="javascript:void(0);" class="stretched-link">Calendar</a>
-                                    <small>Appointments</small>
-                                </div>
-                                <div class="dropdown-shortcuts-item col">
-                                    <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                        <i class="ti ti-file-dollar ti-26px text-heading"></i>
-                                    </span>
-                                    <a href="javascript:void(0);" class="stretched-link">Invoice App</a>
-                                    <small>Manage Accounts</small>
+                                    <a href="javascript:void(0);" class="stretched-link"
+                                        style="font-size: 0.85rem;"><span>{{
+                                            $t("ActiveAppointments")
+                                        }}</span></a>
+                                    <small>{{ $t("Manage") }}</small>
                                 </div>
                             </div>
                             <div class="row row-bordered overflow-visible g-0">
@@ -81,15 +87,15 @@
                                     <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                                         <i class="ti ti-user ti-26px text-heading"></i>
                                     </span>
-                                    <a href="javascript:void(0);" class="stretched-link">User App</a>
-                                    <small>Manage Users</small>
+                                    <a href="javascript:void(0);" class="stretched-link">{{ $t("TeamMembers") }}</a>
+                                    <small>{{ $t("ManageUsers") }}</small>
                                 </div>
                                 <div class="dropdown-shortcuts-item col">
                                     <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                                         <i class="ti ti-users ti-26px text-heading"></i>
                                     </span>
-                                    <a href="javascript:void(0);" class="stretched-link">Role Management</a>
-                                    <small>Permission</small>
+                                    <a href="javascript:void(0);" class="stretched-link">{{ $t("RoleManagement") }}</a>
+                                    <small>{{ $t("Permission") }}</small>
                                 </div>
                             </div>
                             <div class="row row-bordered overflow-visible g-0">
@@ -97,31 +103,15 @@
                                     <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                                         <i class="ti ti-device-desktop-analytics ti-26px text-heading"></i>
                                     </span>
-                                    <a href="javascript:void(0);" class="stretched-link">Dashboard</a>
-                                    <small>User Dashboard</small>
+                                    <a href="javascript:void(0);" class="stretched-link">{{ $t("Dashboard") }}</a>
+                                    <small>{{ $t("UserDashboard") }}</small>
                                 </div>
                                 <div class="dropdown-shortcuts-item col">
                                     <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                                         <i class="ti ti-settings ti-26px text-heading"></i>
                                     </span>
-                                    <a href="javascript:void(0);" class="stretched-link">Setting</a>
-                                    <small>Account Settings</small>
-                                </div>
-                            </div>
-                            <div class="row row-bordered overflow-visible g-0">
-                                <div class="dropdown-shortcuts-item col">
-                                    <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                        <i class="ti ti-help ti-26px text-heading"></i>
-                                    </span>
-                                    <a href="javascript:void(0);" class="stretched-link">FAQs</a>
-                                    <small>FAQs & Articles</small>
-                                </div>
-                                <div class="dropdown-shortcuts-item col">
-                                    <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                                        <i class="ti ti-square ti-26px text-heading"></i>
-                                    </span>
-                                    <a href="javascript:void(0);" class="stretched-link">Modals</a>
-                                    <small>Useful Popups</small>
+                                    <a href="javascript:void(0);" class="stretched-link">{{ $t("Setting") }}</a>
+                                    <small>{{ $t("AccountSettings") }}</small>
                                 </div>
                             </div>
                         </div>
@@ -368,8 +358,9 @@
                     <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
                         data-bs-toggle="dropdown">
                         <div class="avatar avatar-online">
-                            <img v-if="this.$store.getters._currentBusiness?.logoUrl != null" :src="this.$store.getters._currentBusiness?.logoUrl" class="rounded-circle">
-                            <img v-else src="../../assets/img/avatars/1.png" class="rounded-circle" />
+                            <img v-if="this.$store.getters._currentBusiness?.logoUrl != null"
+                                :src="this.$store.getters._currentBusiness?.logoUrl" class="rounded-circle">
+                            <img v-else :src="defaultBusinessImage" class="rounded-circle" />
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -378,8 +369,10 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 me-2">
                                         <div class="avatar avatar-online">
-                                            <img v-if="this.$store.getters._currentBusiness?.logoUrl != null" :src="this.$store.getters._currentBusiness?.logoUrl" class="rounded-circle">
-                                            <img v-else src="../../assets/img/avatars/1.png" class="rounded-circle" />
+                                            <img v-if="this.$store.getters._currentBusiness?.logoUrl != null"
+                                                :src="this.$store.getters._currentBusiness?.logoUrl"
+                                                class="rounded-circle">
+                                            <img v-else :src="defaultBusinessImage" class="rounded-circle" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -394,22 +387,31 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0);">
-                                <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">{{ $t("MyProfile") }}</span>
+                                <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">{{ $t("MyProfile")
+                                    }}</span>
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0);">
-                                <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">{{ $t("Settings") }}</span>
+                                <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">{{ $t("Settings")
+                                    }}</span>
                             </a>
                         </li>
                         <li>
                             <div class="dropdown-divider my-1 mx-n2"></div>
                         </li>
                         <li>
+                            <a class="dropdown-item" href="javascript:void(0);">
+                                <i class="ti ti-question-mark me-3 ti-md"></i><span class="align-middle">{{ $t("FAQ")
+                                    }}</span>
+                            </a>
+                        </li>
+                        <li>
                             <div class="d-grid px-2 pt-2 pb-1">
-                                <a class="btn btn-sm btn-danger d-flex waves-effect waves-light" href="javascript:void(0);" @click="onLogout">
-                                <small class="align-middle">{{ $t("Logout") }}</small>
-                                <i class="ti ti-logout ms-2 ti-14px"></i>
+                                <a class="btn btn-sm btn-danger d-flex waves-effect waves-light"
+                                    href="javascript:void(0);" @click="onLogout">
+                                    <small class="align-middle">{{ $t("Logout") }}</small>
+                                    <i class="ti ti-logout ms-2 ti-14px"></i>
                                 </a>
                             </div>
                         </li>
@@ -421,29 +423,33 @@
 
         <!-- Search Small Screens -->
         <div class="navbar-search-wrapper search-input-wrapper d-none">
-            <input type="text" class="form-control search-input container-xxl border-0" :placeholder="$t('Search') + '..'"
-                aria-label="Search..." />
+            <input type="text" class="form-control search-input container-xxl border-0"
+                :placeholder="$t('Search') + '..'" aria-label="Search..." />
             <i class="ti ti-x search-toggler cursor-pointer"></i>
         </div>
     </nav>
 </template>
 
 <script>
+import { DefaultBusinessImage } from '../../utils/constants.js';
+
 export default {
-  data() {
-    return {
-      currentLanguage: this.$i18n.locale
-    };
-  },
-  methods: {
-    onLogout() {
-        this.$store.commit("logoutBusinessUser");
-        this.$router.push({ path: '/login' });
+    data() {
+        return {
+            currentLanguage: this.$i18n.locale,
+            defaultBusinessImage: DefaultBusinessImage
+        };
     },
-    changeLanguage(value) {
-        this.$i18n.locale = value;
-        this.$store.commit("setLanguage", value);
+    methods: {
+        onLogout() {
+            this.$store.commit("logoutBusinessUser");
+            this.$router.push({ path: '/login' });
+        },
+        changeLanguage(value) {
+            location.reload();
+            this.$i18n.locale = value;
+            this.$store.commit("setLanguage", value);
+        }
     }
-  }
 }
 </script>

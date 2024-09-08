@@ -207,7 +207,7 @@ if (document.getElementById('layout-menu')) {
         }
         this.classList.add('active');
 
-        i18next.changeLanguage(currentLanguage, (err, t) => {
+        i18.changeLanguage(currentLanguage, (err, t) => {
           window.templateCustomizer ? window.templateCustomizer.setLang(currentLanguage) : '';
           directionChange(textDirection);
           if (err) return console.log('something went wrong loading', err);

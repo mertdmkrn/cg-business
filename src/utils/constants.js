@@ -1,1 +1,2 @@
-export const COOKIE_MAX_AGE_1_YEAR = 365 * 24 * 60 * 60
+export const DefaultUserImage = "https://cdn.kolayrandevu.com/incs/images/static/profil.png"
+export const DefaultBusinessImage = "https://iili.io/dSIQNYQ.jpg"

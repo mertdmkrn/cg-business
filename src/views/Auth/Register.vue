@@ -24,9 +24,8 @@ export default {
   },
   methods: {
     async sendSmsCode(hasValidate) {
-      try {  
-        if(hasValidate)
-        {
+      try {
+        if (hasValidate) {
           this.businessUser.fullName = `${this.businessUser.firstName} ${this.businessUser.lastName}`;
           const validateResponse = await this.$appAxios.post("/businessuser/validate", this.businessUser);
           let hasError = validateResponse?.data?.hasError;
@@ -42,8 +41,7 @@ export default {
 
         if (hasError) {
           this.$toastr.warning(response?.data?.message);
-        } else
-        {
+        } else {
           this.$toastr.success(response?.data?.message);
           this.firstStepDone = true;
         }
@@ -52,9 +50,8 @@ export default {
         this.$toastr.error(this.$t("ErrorMessage"));
       }
     },
-    async verifiedSmsCode()
-    {
-      try{  
+    async verifiedSmsCode() {
+      try {
 
         const verifiedSmsCodeRequestBody = {
           target: this.businessUser.telephone.replace(" ", ""),
@@ -66,8 +63,7 @@ export default {
 
         if (hasError) {
           this.$toastr.warning(response?.data?.message);
-        } else
-        {
+        } else {
           this.save();
         }
 
@@ -75,8 +71,7 @@ export default {
         this.$toastr.error(this.$t("ErrorMessage"));
       }
     },
-    async save()
-    {
+    async save() {
       this.businessUser.telephone = this.businessUser.telephone.replace(" ", "");
       const response = await this.$appAxios.post("/businessuser/save", this.businessUser);
       let hasError = response?.data?.hasError;
@@ -101,7 +96,7 @@ export default {
       this.$store.commit("setBusinessUser", businessUser);
 
       setTimeout(() => {
-          this.$router.push({ path: '/business-register' });
+        this.$router.push({ path: '/business-register' });
       }, 2000);
     }
   },
@@ -126,25 +121,29 @@ export default {
           <form id="formAuthentication" @submit.prevent="sendSmsCode(true)" class="mb-6">
             <div class="mb-6">
               <label for="firstname" class="form-label">{{ $t("FirstName") }}</label>
-              <input v-model="businessUser.firstName" type="text" class="form-control" id="firstname" :placeholder="$t('EnterYourFirstName')" autofocus required/>
+              <input v-model="businessUser.firstName" type="text" class="form-control" id="firstname"
+                :placeholder="$t('EnterYourFirstName')" autofocus required />
             </div>
             <div class="mb-6">
               <label for="lastname" class="form-label">{{ $t("LastName") }}</label>
-              <input v-model="businessUser.lastName" type="text" class="form-control" id="lastname" :placeholder="$t('EnterYourLastName')" required/>
+              <input v-model="businessUser.lastName" type="text" class="form-control" id="lastname"
+                :placeholder="$t('EnterYourLastName')" required />
             </div>
             <div class="mb-6">
               <label for="email" class="form-label">{{ $t("Email") }}</label>
-              <input v-model="businessUser.email" type="email" class="form-control" id="email" :placeholder="$t('EnterYourEmail')" required/>
+              <input v-model="businessUser.email" type="email" class="form-control" id="email"
+                :placeholder="$t('EnterYourEmail')" required />
             </div>
             <div class="mb-6">
               <label for="telephone" class="form-label">{{ $t("MobileNumber") }}</label>
-              <input v-model="businessUser.telephone" type="tel" class="form-control" id="telephone" placeholder="+905xxxxxxxxxx" required/>
+              <input v-model="businessUser.telephone" type="tel" class="form-control" id="telephone"
+                placeholder="+905xxxxxxxxxx" required />
             </div>
             <div class="mb-6 form-password-toggle">
               <label class="form-label" for="password">{{ $t("Password") }}</label>
               <div class="input-group input-group-merge">
                 <input v-model="businessUser.password" type="password" id="password" class="form-control"
-                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
+                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required />
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
             </div>
@@ -153,7 +152,7 @@ export default {
               <div class="input-group input-group-merge">
                 <input v-model="businessUser.retryPassword" type="password" id="retryPassword" class="form-control"
                   name="retryPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  aria-describedby="retryPassword" required/>
+                  aria-describedby="retryPassword" required />
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
             </div>
@@ -189,14 +188,14 @@ export default {
           <form id="twoStepsForm" @submit.prevent="verifiedSmsCode">
             <div class="mb-6">
               <div class="auth-input-wrapper d-flex align-items-center justify-content-between numeral-mask-wrapper">
-                <input type="tel" v-model="code1" class="form-control auth-input h-px-50 text-center numeral-mask my-3" maxlength="1"
-                  autofocus required/>
-                <input type="tel" v-model="code2" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
-                  maxlength="1" required/>
-                <input type="tel" v-model="code3" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
-                  maxlength="1" required/>
-                <input type="tel" v-model="code4" class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3"
-                  maxlength="1" required/>
+                <input type="tel" v-model="code1" class="form-control auth-input h-px-50 text-center numeral-mask my-3"
+                  maxlength="1" autofocus required />
+                <input type="tel" v-model="code2"
+                  class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3" maxlength="1" required />
+                <input type="tel" v-model="code3"
+                  class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3" maxlength="1" required />
+                <input type="tel" v-model="code4"
+                  class="form-control auth-input w-25 h-px-50 text-center numeral-mask my-3" maxlength="1" required />
               </div>
               <input type="hidden" name="otp" />
             </div>

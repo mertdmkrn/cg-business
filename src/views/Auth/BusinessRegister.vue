@@ -4,7 +4,8 @@
       <div class="d-none d-lg-flex col-lg-3 p-0">
         <div class="auth-cover-bg-2 auth-cover-bg-color d-flex justify-content-center align-items-lg-center">
           <img src="../../assets/img/pages/auth-business-register.png" alt="auth-login-cover" class="auth-cover-bg"
-            data-app-light-img="pages/auth-business-register.png" data-app-dark-img="pages/auth-business-register.png" />
+            data-app-light-img="pages/auth-business-register.png"
+            data-app-dark-img="pages/auth-business-register.png" />
         </div>
       </div>
       <div class="d-flex col-12 col-lg-9 align-items-lg-center">
@@ -20,7 +21,7 @@
                   <span class="bs-stepper-label">
                     <span class="bs-stepper-title">{{ $t("Business") }}</span>
                     <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("EnterYourBusinessDetails")
-                    }}</span>
+                      }}</span>
                   </span>
                 </button>
               </div>
@@ -36,7 +37,8 @@
                   </span>
                   <span class="bs-stepper-label">
                     <span class="bs-stepper-title">{{ $t("Services") }}</span>
-                    <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("ChooseYourServices") }}</span>
+                    <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("ChooseYourServices")
+                      }}</span>
                   </span>
                 </button>
               </div>
@@ -52,7 +54,7 @@
                   <span class="bs-stepper-label">
                     <span class="bs-stepper-title">{{ $t("Team") }}</span>
                     <span class="d-inline d-lg-none d-xl-inline bs-stepper-subtitle">{{ $t("EnterYourTeamDetails")
-                    }}</span>
+                      }}</span>
                   </span>
                 </button>
               </div>
@@ -100,13 +102,15 @@
                         <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
                         <span class="align-middle d-sm-inline-block d-none">{{ $t("Previous") }}</span>
                       </button>
-                      <button type="button" class="btn btn-primary btn-next" :disabled="!stepDone" @click="stepNumber++">
+                      <button type="button" class="btn btn-primary btn-next" :disabled="!stepDone"
+                        @click="stepNumber++">
                         <span class="align-middle d-sm-inline-block d-none me-sm-2">{{ $t("Next") }}</span>
                         <i class="ti ti-arrow-right ti-xs"></i>
                       </button>
                     </div>
                     <div class="text-center">
-                      <router-link @click="onLogout" :to="'/login'" class="d-flex align-items-center justify-content-center">
+                      <router-link @click="onLogout" :to="'/login'"
+                        class="d-flex align-items-center justify-content-center">
                         <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
                         {{ $t("BackToLogin") }}
                       </router-link>
@@ -123,7 +127,8 @@
                   <div class="row">
                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4" v-for="item in services" :key="item.id">
                       <div class="form-check custom-option custom-option-basic" :id="item.id">
-                        <label class="form-check-label custom-option-content pt-6" :for="`customCheckboxTemp${item.id}`">
+                        <label class="form-check-label custom-option-content pt-6"
+                          :for="`customCheckboxTemp${item.id}`">
                           <input class="form-check-input" type="checkbox" :id="`customCheckboxTemp${item.id}`"
                             @click="toggleService(item.id)" />
                           <span class="custom-option-header">
@@ -140,13 +145,15 @@
                         <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
                         <span class="align-middle d-sm-inline-block d-none">{{ $t("Previous") }}</span>
                       </button>
-                      <button type="button" class="btn btn-primary btn-next" :disabled="!stepDone" @click="stepNumber++">
+                      <button type="button" class="btn btn-primary btn-next" :disabled="!stepDone"
+                        @click="stepNumber++">
                         <span class="align-middle d-sm-inline-block d-none me-sm-2">{{ $t("Next") }}</span>
                         <i class="ti ti-arrow-right ti-xs"></i>
                       </button>
                     </div>
                     <div class="text-center">
-                      <router-link @click="onLogout" :to="'/login'" class="d-flex align-items-center justify-content-center">
+                      <router-link @click="onLogout" :to="'/login'"
+                        class="d-flex align-items-center justify-content-center">
                         <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
                         {{ $t("BackToLogin") }}
                       </router-link>
@@ -181,7 +188,8 @@
                       </button>
                     </div>
                     <div class="text-center">
-                      <router-link @click="onLogout" :to="'/login'" class="d-flex align-items-center justify-content-center">
+                      <router-link @click="onLogout" :to="'/login'"
+                        class="d-flex align-items-center justify-content-center">
                         <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
                         {{ $t("BackToLogin") }}
                       </router-link>
@@ -237,8 +245,7 @@ export default {
         this.$toastr.error(this.$t("ErrorMessage"));
       }
     },
-    async save()
-    {
+    async save() {
       this.business.serviceIds = this.business.serviceIdArr.join(";");
       const response = await this.$appAxios.post("/business/save", this.business, {
         headers: { 'Authorization': `Bearer ${this._token}` }

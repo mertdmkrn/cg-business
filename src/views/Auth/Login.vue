@@ -3,8 +3,8 @@
     <div class="authentication-inner row m-0">
       <div class="d-none d-lg-flex col-lg-8 p-0">
         <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
-          <img src="../../assets/img/pages/auth-left.png" alt="auth-login-cover" data-app-light-img="pages/auth-left.png"
-            data-app-dark-img="pages/auth-left.png" />
+          <img src="../../assets/img/pages/auth-left.png" alt="auth-login-cover"
+            data-app-light-img="pages/auth-left.png" data-app-dark-img="pages/auth-left.png" />
         </div>
       </div>
       <div class="d-flex col-12 col-lg-4 align-items-center p-sm-12 p-6">
@@ -16,14 +16,15 @@
             <div class="mb-6 fv-plugins-icon-container">
               <label for="email" class="form-label">{{ $t("Email") }}</label>
               <input type="email" class="form-control" id="email" name="email" v-model="businessUser.email"
-                :placeholder="$t('EnterYourEmail')" autofocus required/>
+                :placeholder="$t('EnterYourEmail')" autofocus required />
               <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
             </div>
             <div class="mb-6 form-password-toggle fv-plugins-icon-container">
               <label class="form-label" for="password">{{ $t("Password") }}</label>
               <div class="input-group input-group-merge has-validation">
-                <input type="password" id="password" class="form-control" v-model="businessUser.password" name="password"
-                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
+                <input type="password" id="password" class="form-control" v-model="businessUser.password"
+                  name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                  aria-describedby="password" required />
                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
               <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
@@ -31,7 +32,8 @@
             <div class="my-8">
               <div class="d-flex justify-content-between">
                 <div class="form-check mb-0 ms-2">
-                  <input class="form-check-input" v-model="businessUser.isRememberMe" type="checkbox" id="remember-me" />
+                  <input class="form-check-input" v-model="businessUser.isRememberMe" type="checkbox"
+                    id="remember-me" />
                   <label class="form-check-label" for="remember-me">{{ $t("RememberMe") }}</label>
                 </div>
                 <router-link :to="'/forgot-password'">
@@ -71,7 +73,7 @@ export default {
     return {
       businessUser: {
         email: this.$store.getters?._loginUser?.email || "",
-        password:  this.$store.getters?._loginUser?.password || "",
+        password: this.$store.getters?._loginUser?.password || "",
         isRememberMe: false
       },
     }
@@ -95,7 +97,7 @@ export default {
         this.$toastr.success(response?.data?.message);
 
         this.$store.commit("setToken", token);
-        
+
         const businessUserResponse = await this.$appAxios.post("/businessuser/get", null, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
