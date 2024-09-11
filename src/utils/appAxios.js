@@ -28,7 +28,8 @@ appAxios.interceptors.response.use(
   error => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) 
     {
-      router.push({ path: '/login' });
+      this.$store.commit("logoutBusinessUser");
+      this.$router.push({ path: '/login' });
     }
     return Promise.reject(error);
   }
