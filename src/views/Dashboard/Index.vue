@@ -2,7 +2,7 @@
   <div class="d-flex flex-row align-items-center justify-content-between mb-6 text-start">
     <h5 class="mb-0"><span class="fw-lighter">{{ $t('WelcomeBack') }},</span><span class="h5 fw-extrabold ms-1"> {{
       $store.getters._currentBusiness?.name.toLocaleUpperCase($i18n.locale)
-        }}</span>
+    }}</span>
     </h5>
 
     <div class="dropdown">
@@ -331,8 +331,8 @@
                   </div>
                 </div>
               </div>
-              <div v-if="serviceReport && serviceReport.length === 3">
-                <div class="d-flex align-items-baseline my-12">
+              <div v-if="serviceReport && (serviceReport.length === 3 || serviceReport.length === 5)">
+                <div class="d-flex align-items-baseline" :class="serviceReport.length === 3 ? 'my-12' : ''">
                   <span class="me-2" :class="'text-' + classList[index]">
                   </span>
                   <div>
