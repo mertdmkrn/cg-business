@@ -2,7 +2,7 @@
   <div class="d-flex flex-row align-items-center justify-content-between mb-6 text-start">
     <h5 class="mb-0"><span class="fw-lighter">{{ $t('WelcomeBack') }},</span><span class="h5 fw-extrabold ms-1"> {{
       $store.getters._currentBusiness?.name.toLocaleUpperCase($i18n.locale)
-    }}</span>
+        }}</span>
     </h5>
 
     <div class="dropdown">
@@ -439,7 +439,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Pagination from '../../components/Pagination.vue';
 import InfoBox from '../../components/InfoBox.vue';
 import { DefaultUserImage } from '../../utils/constants.js';
@@ -489,9 +488,7 @@ export default {
   },
   methods: {
     async getTotalCount() {
-      const totalCountResponse = await this.$appAxios.post("/businessadmin/gettotaldata", null, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const totalCountResponse = await this.$appAxios.post("/businessadmin/gettotaldata", {});
 
       this.totalInfos.customerCount = totalCountResponse?.data?.data?.customerCount || 0;
       this.totalInfos.monthlyCustomerIncreasePercentage = totalCountResponse?.data?.data?.monthlyCustomerIncreasePercentage || 0;
@@ -500,9 +497,7 @@ export default {
     },
 
     async getEarningReport() {
-      const getEarningReportResponse = await this.$appAxios.post("/businessadmin/getearningreport", null, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const getEarningReportResponse = await this.$appAxios.post("/businessadmin/getearningreport", {});
 
       this.totalInfos.lastWeekEarning = getEarningReportResponse?.data?.data?.lastWeekEarning || 0;
       this.totalInfos.lastWeekEarningPercentage = getEarningReportResponse?.data?.data?.lastWeekEarningPercentage || 0;
@@ -524,9 +519,7 @@ export default {
         take: 4
       };
 
-      const getEarningReportResponse = await this.$appAxios.post("/businessadmin/getworkerreport", requestBody, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const getEarningReportResponse = await this.$appAxios.post("/businessadmin/getworkerreport", requestBody);
 
       if (isThisMonth) {
         this.workerReportThisMonth = getEarningReportResponse?.data?.data;
@@ -546,9 +539,7 @@ export default {
         endDate: endDate.toISOString()
       };
 
-      const getServiceReportResponse = await this.$appAxios.post("/businessadmin/getservicereport", requestBody, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const getServiceReportResponse = await this.$appAxios.post("/businessadmin/getservicereport", requestBody);
 
       this.businessServiceReport = getServiceReportResponse?.data?.data?.businessServiceDatas;
       this.serviceReport = getServiceReportResponse?.data?.data?.serviceDatas;
@@ -572,9 +563,8 @@ export default {
         take: this.perPage
       };
 
-      const getAppointmentReportResponse = await this.$appAxios.post("/businessadmin/getappointmentreport", requestBody, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const getAppointmentReportResponse = await this.$appAxios.post("/businessadmin/getappointmentreport", requestBody);
+
 
       this.records = getAppointmentReportResponse?.data?.data?.itemCount || 0;
       this.appointmentReport = getAppointmentReportResponse?.data?.data?.reportInfos || [];
@@ -887,10 +877,7 @@ export default {
       const rounded = Math.round(value / 10) * 10;
       return value % 10 >= 5 ? rounded : rounded + 5;
     }
-  },
-  computed: {
-    ...mapGetters(["_token"])
-  },
+  }
 }
 </script>
 

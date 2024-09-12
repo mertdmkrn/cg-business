@@ -206,8 +206,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   mounted() {
     this.getServices();
@@ -247,9 +245,7 @@ export default {
     },
     async save() {
       this.business.serviceIds = this.business.serviceIdArr.join(";");
-      const response = await this.$appAxios.post("/business/save", this.business, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const response = await this.$appAxios.post("/business/save", this.business);
 
       let hasError = response?.data?.hasError;
 
@@ -260,9 +256,7 @@ export default {
 
       this.$toastr.success(response?.data?.message);
 
-      const businessUserResponse = await this.$appAxios.post("/businessuser/get", null, {
-        headers: { 'Authorization': `Bearer ${this._token}` }
-      });
+      const businessUserResponse = await this.$appAxios.post("/businessuser/get", {});
 
       const businessUserHasError = businessUserResponse?.data?.hasError;
 
@@ -322,8 +316,7 @@ export default {
         default:
           return false;
       }
-    },
-    ...mapGetters(["_token"])
+    }
   },
 };
 </script>

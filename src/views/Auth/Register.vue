@@ -86,9 +86,7 @@ export default {
 
       this.$store.commit("setToken", token);
 
-      const businessUserResponse = await this.$appAxios.post("/businessuser/get", null, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const businessUserResponse = await this.$appAxios.post("/businessuser/get", {});
 
       hasError = businessUserResponse?.data?.hasError;
       const businessUser = businessUserResponse?.data?.data;
