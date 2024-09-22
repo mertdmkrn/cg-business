@@ -274,7 +274,7 @@ export function initCalendar(events, language) {
         allDayText: language === "tr" ? 'Tüm Gün' : 'All-Day',
         moreLinkText: language === "tr" ? 'daha fazla' : 'more',
         noEventsText: language === "tr" ? 'Gösterilecek randevu yok' : 'No appointment to display'
-      },
+    },
     initialView: 'dayGridMonth',
     events: fetchEvents,
     plugins: [dayGridPlugin, interactionPlugin, listPlugin, timegridPlugin],
@@ -293,6 +293,11 @@ export function initCalendar(events, language) {
     },
     direction: 'ltr',
     initialDate: new Date(),
+    views: {
+        timeGridWeek: {
+            dayHeaderFormat: { weekday: 'short' }
+        }
+    },
     navLinks: true, // can click day/week names to navigate views
     eventClassNames: function ({ event: calendarEvent }) {
       const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar];
