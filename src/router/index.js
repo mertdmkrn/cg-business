@@ -31,6 +31,11 @@ const routes = [
         name: "DASHBOARD",
         path: "/",
         component: () => import("../views/Dashboard/Index.vue")
+    },
+    {
+        name: "CALENDAR",
+        path: "/calendar",
+        component: () => import("../views/Calendar/Index.vue")
     }
 ];
 

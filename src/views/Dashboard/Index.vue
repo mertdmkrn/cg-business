@@ -1,47 +1,7 @@
 <template>
-  <div class="d-flex flex-row align-items-center justify-content-between mb-6 text-start">
-    <h5 class="mb-0"><span class="fw-lighter">{{ $t('WelcomeBack') }},</span><span class="h5 fw-extrabold ms-1"> {{
-      $store.getters._currentBusiness?.name.toLocaleUpperCase($i18n.locale)
-        }}</span>
-    </h5>
 
-    <div class="dropdown">
-      <button class="btn btn-primary waves-effect waves-light px-5 py-3" tabindex="0" type="button" id="createTopic"
-        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span>
-          <i class="ti ti-plus me-0 me-sm-1 mb-50"></i>
-          <span class="d-none d-sm-inline-block">{{ $t('Create') }}</span>
-        </span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="createTopic">
-        <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
-          <span>
-            <i class="ti ti-calendar me-4 mb-50"></i>
-            <span>{{ $t('NewAppointment') }}</span>
-          </span>
-        </a>
-        <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
-          <span>
-            <i class="ti ti-user-plus me-4 mb-50"></i>
-            <span>{{ $t('NewClient') }}</span>
-          </span>
-        </a>
-        <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
-          <span>
-            <i class="ti ti-rosette-discount me-4 mb-1"></i>
-            <span>{{ $t('AddDiscount') }}</span>
-          </span>
-        </a>
-        <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
-          <span>
-            <i class="ti ti-medicine-syrup me-4 mb-1"></i>
-            <span>{{ $t('AddStock') }}</span>
-          </span>
-        </a>
-      </div>
-    </div>
+  <WelcomeBar />
 
-  </div>
   <div class="row g-6 mb-6">
     <InfoBox
       :info="{ title: $t('Earnings'), spot: `₺${totalInfos.lastWeekEarning?.toLocaleString($i18n.locale)}`, percentage: totalInfos.lastWeekEarningPercentage, description: $t('Last7Days'), iconColorClass: 'bg-label-primary', iconClass: 'ti-currency-dollar' }" />
@@ -320,9 +280,9 @@
             </div>
 
             <div>
-              <div v-for="(service, index) in serviceReport" :key="service.serviceName">
-                <div v-if="index % 2 === 1" class="d-flex align-items-baseline" :class="index === 3 ? 'my-12' : ''">
-                  <span class="me-2" :class="'text-' + classList[index]">
+              <div v-for="(service, idx) in serviceReport.slice(0, 6)" :key="service.serviceName">
+                <div v-if="idx % 2 === 1" class="d-flex align-items-baseline" :class="idx === 3 ? 'my-12' : ''">
+                  <span class="me-2" :class="'text-' + classList[idx]">
                     <i class="ti ti-circle-filled ti-12px"></i>
                   </span>
                   <div>
@@ -331,9 +291,10 @@
                   </div>
                 </div>
               </div>
+
               <div v-if="serviceReport && (serviceReport.length === 3 || serviceReport.length === 5)">
                 <div class="d-flex align-items-baseline" :class="serviceReport.length === 3 ? 'my-12' : ''">
-                  <span class="me-2" :class="'text-' + classList[index]">
+                  <span class="me-2" :class="'text-' + classList[serviceReport.length - 1]">
                   </span>
                   <div>
                     <p class="mb-0">&nbsp;</p>
@@ -442,11 +403,13 @@
 import Pagination from '../../components/Pagination.vue';
 import InfoBox from '../../components/InfoBox.vue';
 import { DefaultUserImage } from '../../utils/constants.js';
+import WelcomeBar from '../../components/WelcomeBar.vue';
 
 export default {
   components: {
     Pagination,
-    InfoBox
+    InfoBox,
+    WelcomeBar
   },
   data() {
     return {
@@ -882,6 +845,6 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 @import url('../../assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css');
 </style>

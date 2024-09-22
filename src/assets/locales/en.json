@@ -110,5 +110,12 @@
   "UserDashboard": "User Dashboard",
   "Setting": "Setting",
   "AccountSettings": "Account Settings",
-  "FAQ": "FAQ"
+  "FAQ": "FAQ",
+  "Calendar": "Calendar",
+  "General": "GENERAL",
+  "TeamMemberFilter": "Team Member Filter",
+  "ViewAll": "View All",
+  "AddAppointment": "Add Appointment",
+  "Cancel": "Cancel",
+  "Add": "Add"
 }

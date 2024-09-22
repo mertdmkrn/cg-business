@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="!this.$store.getters._isAuthenticated || !this.$store.getters._isBusinessRegistered"
-      :key="'unauthenticated-' + $route.fullPath">
+      :key="'unauthenticated'">
       <router-view></router-view>
     </div>
-    <div v-else :key="'authenticated-' + $route.fullPath" class="layout-wrapper layout-content-navbar">
+    <div v-else :key="'authenticated'" class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <AppSidebar />
         <div class="layout-page">

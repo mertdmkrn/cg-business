@@ -34,14 +34,30 @@
     </div>
 
     <div class="menu-inner-shadow"></div>
-
     <ul class="menu-inner py-1">
-      <li class="menu-item" :class="this.$route.name == 'DASHBOARD' ? 'active' : ''">
-        <router-link :to="'/'" class="menu-link active open">
-          <i class="menu-icon tf-icons ti ti-smart-home"></i>
-          <div>{{ $t("Dashboard") }}</div>
+      <li class="menu-header small">
+        <span class="menu-header-text">{{ $t("General") }}</span>
+      </li>
+      <li v-for="(item, index) in generalMenuitems" :key="index" class="menu-item"
+        :class="this.$route.name == item.routeName ? 'active' : ''">
+        <router-link :to="item.url" class="menu-link active open">
+          <i class="menu-icon tf-icons ti" :class="item.iconClass"></i>
+          <div>{{ item.name }}</div>
         </router-link>
       </li>
     </ul>
   </aside>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      generalMenuitems: [
+        { name: this.$t("Dashboard"), routeName: "DASHBOARD", iconClass: "ti-home", url: "/" },
+        { name: this.$t("Calendar"), routeName: "CALENDAR", iconClass: "ti-calendar", url: "/calendar" },
+      ]
+    };
+  }
+}
+</script>

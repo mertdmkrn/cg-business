@@ -110,5 +110,12 @@
   "UserDashboard": "Kullanıcı Paneli",
   "Setting": "Ayarlar",
   "AccountSettings": "Hesap Ayarları",
-  "FAQ": "SSS"
+  "FAQ": "SSS",
+  "Calendar": "Takvim",
+  "General": "GENEL",
+  "TeamMemberFilter": "Çalışan Filtrele",
+  "ViewAll": "Tümünü Gör",
+  "AddAppointment": "Randevu Ekle",
+  "Cancel": "İptal",
+  "Add": "Ekle"
 }
