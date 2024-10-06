@@ -275,7 +275,7 @@ export function initCalendar(events, language) {
         moreLinkText: language === "tr" ? 'daha fazla' : 'more',
         noEventsText: language === "tr" ? 'Gösterilecek randevu yok' : 'No appointment to display'
     },
-    initialView: 'dayGridMonth',
+    initialView: 'listMonth',
     events: fetchEvents,
     plugins: [dayGridPlugin, interactionPlugin, listPlugin, timegridPlugin],
     editable: true,

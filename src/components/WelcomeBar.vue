@@ -1,8 +1,10 @@
 <template>
     <div class="d-flex flex-row align-items-center justify-content-between mb-6 text-start">
-        <h5 class="mb-0"><span class="fw-lighter">{{ $t('WelcomeBack') }},</span><span class="h5 fw-extrabold ms-1"> {{
-            $store.getters._currentBusiness?.name.toLocaleUpperCase($i18n.locale)
-                }}</span>
+        <h5 class="mb-0 ms-1">
+            <span class="fw-lighter">{{ $t('WelcomeBack') }},</span>
+            <span class="h5 fw-extrabold ms-1">
+                {{ $store.getters._currentUser?.fullName.toLocaleUpperCase($i18n.locale) }}
+            </span>
         </h5>
 
         <div class="dropdown">
@@ -16,26 +18,26 @@
             <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="createTopic">
                 <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
                     <span>
-                        <i class="ti ti-calendar me-4 mb-50"></i>
-                        <span>{{ $t('NewAppointment') }}</span>
+                        <i class="ti ti-calendar me-4 ti-md"></i>
+                        <span class="align-middle">{{ $t('NewAppointment') }}</span>
                     </span>
                 </a>
                 <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
                     <span>
-                        <i class="ti ti-user-plus me-4 mb-50"></i>
-                        <span>{{ $t('NewClient') }}</span>
+                        <i class="ti ti-user-plus me-4 ti-md"></i>
+                        <span class="align-middle">{{ $t('NewClient') }}</span>
                     </span>
                 </a>
                 <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
                     <span>
-                        <i class="ti ti-rosette-discount me-4 mb-1"></i>
-                        <span>{{ $t('AddDiscount') }}</span>
+                        <i class="ti ti-rosette-discount me-4 ti-md"></i>
+                        <span class="align-middle">{{ $t('AddDiscount') }}</span>
                     </span>
                 </a>
                 <a class="dropdown-item" style="width: 240px;" href="javascript:void(0);">
                     <span>
-                        <i class="ti ti-medicine-syrup me-4 mb-1"></i>
-                        <span>{{ $t('AddStock') }}</span>
+                        <i class="ti ti-medicine-syrup me-4 ti-md"></i>
+                        <span class="align-middle">{{ $t('AddStock') }}</span>
                     </span>
                 </a>
             </div>

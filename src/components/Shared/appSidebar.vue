@@ -56,6 +56,7 @@ export default {
       generalMenuitems: [
         { name: this.$t("Dashboard"), routeName: "DASHBOARD", iconClass: "ti-home", url: "/" },
         { name: this.$t("Calendar"), routeName: "CALENDAR", iconClass: "ti-calendar", url: "/calendar" },
+        { name: this.$t("Client"), routeName: "CLIENT", iconClass: "ti-mood-smile", url: "/client" },
       ]
     };
   }

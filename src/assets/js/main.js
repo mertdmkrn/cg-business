@@ -51,7 +51,7 @@ if (document.getElementById('layout-menu')) {
           : true // Use this if you are not using the config.js and want to set value directly from here
     });
     // Change parameter to true if you want scroll animation
-    window.Helpers.scrollToActive((animate = false));
+    window.Helpers.scrollToActive((animate = true));
     window.Helpers.mainMenu = menu;
   });
 
@@ -655,3 +655,13 @@ if (typeof $ !== 'undefined') {
     }
   });
 }
+
+let menuItems = document.querySelectorAll('.menu-item');
+menuItems.forEach(item => {
+  item.addEventListener('click', event => {
+    event.preventDefault();
+    if (window.Helpers.isSmallScreen()) {
+      window.Helpers.toggleCollapsed();
+    }
+  });
+});

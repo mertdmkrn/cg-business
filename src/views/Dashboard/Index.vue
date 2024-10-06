@@ -2,7 +2,7 @@
 
   <WelcomeBar />
 
-  <div class="row g-6 mb-6">
+  <div class="row g-sm-6 g-3 mb-sm-6 mb-3">
     <InfoBox
       :info="{ title: $t('Earnings'), spot: `₺${totalInfos.lastWeekEarning?.toLocaleString($i18n.locale)}`, percentage: totalInfos.lastWeekEarningPercentage, description: $t('Last7Days'), iconColorClass: 'bg-label-primary', iconClass: 'ti-currency-dollar' }" />
     <InfoBox
@@ -13,7 +13,7 @@
       :info="{ title: $t('PendingAppointments'), spot: totalInfos.pendingAppointmentCount, description: $t('Total'), iconColorClass: 'bg-label-primary', iconClass: 'ti-clock' }" />
   </div>
 
-  <div class="row g-6 mb-6">
+  <div class="row g-sm-6 g-3 mb-sm-6 mb-3">
     <div class="col-lg-6">
       <div class="card h-100 shadow-none border">
         <div class="card-header d-flex align-items-center justify-content-between mb-0">
@@ -197,7 +197,7 @@
     </div>
   </div>
 
-  <div class="row g-6 mb-6">
+  <div class="row g-sm-6 g-3 mb-sm-6 mb-3">
     <div class="col-lg-4">
       <div class="card h-100 shadow-none border">
         <div class="card-header d-flex align-items-center justify-content-between">
@@ -309,7 +309,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mb-0">
     <div class="col-12">
       <div class="card h-100 shadow-none border">
         <div class="table-responsive mb-0">

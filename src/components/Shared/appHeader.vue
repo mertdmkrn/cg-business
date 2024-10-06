@@ -1,5 +1,5 @@
 <template>
-    <nav class="layout-navbar container-xxl navbar navbar-expand-xxl navbar-detached align-items-center bg-navbar-theme"
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xxl navbar-detached align-items-center bg-navbar-theme shadow-none border"
         id="layout-navbar">
         <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -7,7 +7,7 @@
             </a>
         </div>
 
-        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <div class="navbar-nav-right d-flex align-items-center " id="navbar-collapse">
             <!-- Search -->
             <div class="navbar-nav align-items-center">
                 <div class="nav-item navbar-search-wrapper mb-0">
@@ -376,8 +376,9 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h6 class="mb-0">{{ this.$store.getters._currentBusiness?.name }}</h6>
-                                        <small class="text-muted">Admin</small>
+                                        <h6 class="mb-0">{{ this.$store.getters._currentUser?.fullName }}</h6>
+                                        <small class="text-muted">{{ this.$store.getters._currentUser?.role || "Admin"
+                                            }}</small>
                                     </div>
                                 </div>
                             </a>

@@ -28857,7 +28857,7 @@ html:not([dir=rtl]) .menu-toggle::after {
   padding: 1.5rem;
 }
 .layout-navbar .navbar-dropdown.dropdown-shortcuts .dropdown-shortcuts-item:hover {
-  background-color: #f3f2f3;
+  background-color: var(--bs-dropdown-link-hover-bg);
 }
 .layout-navbar .navbar-dropdown.dropdown-shortcuts .dropdown-shortcuts-item .dropdown-shortcuts-icon {
   height: 3.125rem;

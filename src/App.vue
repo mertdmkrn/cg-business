@@ -10,7 +10,7 @@
         <div class="layout-page">
           <AppHeader />
           <div class="content-wrapper">
-            <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="container-xxl flex-grow-1 container-p-y pb-1">
               <router-view></router-view>
             </div>
             <AppFooter />

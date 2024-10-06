@@ -41,6 +41,7 @@ export const store = createStore({
     getters : {
         _isAuthenticated: state => state.businessUser !== null,
         _currentBusiness: state => state.businessUser?.business,
+        _currentUser: state => state.businessUser,
         _isBusinessRegistered: state => state.businessUser !== null && state.businessUser.business !== null,
         _token: state => state.token,
         _language: state => state.language,
