@@ -3,7 +3,7 @@
         <div class="card-datatable table-responsive pt-0">
             <div class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <div
-                    class="card-header d-flex justify-content-between align-items-center border-bottom p-7 pb-2 pb-sm-6">
+                    class="card-header d-flex justify-content-between align-items-center border-bottom p-7 py-4 py-sm-7">
                     <div class="head-label">
                         <h5 class="card-title mb-0 pt-1">{{ $t('ClientList') }}</h5>
                     </div>
