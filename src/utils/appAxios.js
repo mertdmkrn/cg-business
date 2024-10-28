@@ -3,7 +3,7 @@ import router from '../router';
 import store from '../store';
 
 export const appAxios = axios.create({
-  baseURL: "https://cgapi-f892d01b36c3.herokuapp.com",
+  baseURL: "https://caregardenapi-e4dcd7cce01f.herokuapp.com",
   headers: {
     "Content-Type": "application/json",
     "Language": store.getters._language || "en"
@@ -33,6 +33,7 @@ appAxios.interceptors.response.use(
       if (error.response.status === 401 || error.response.status === 403) {
         store.commit("logoutBusinessUser");
         router.push({ path: '/login' });
+        return;
       }
 
       if (error.response.status === 429) {
