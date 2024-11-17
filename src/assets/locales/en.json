@@ -135,5 +135,10 @@
   "AscAppointmentCount": "Asc by appointment count",
   "DescAppointmentCount": "Desc by appointment count",
   "AscTotalSpent": "Asc by total spent",
-  "DescTotalSpent": "Desc by total spent"
+  "DescTotalSpent": "Desc by total spent",
+  "NoResultFound": "No result found",
+  "StartDate": "Start Date",
+  "End": "End Date",
+  "Description": "Description",
+  "SelectValue": "Select value"
 }

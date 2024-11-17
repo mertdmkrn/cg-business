@@ -27,31 +27,34 @@
                         <label class="form-check-label" for="selectAll">{{ $t('ViewAll') }}</label>
                     </div>
 
+                    <div class="app-calendar-events-filter text-heading table-responsive" style="max-height:15rem;">
+                        <div v-for="worker in workers" :key="worker.id" class="form-check mb-5 ms-2">
+                            <input class="form-check-input input-filter" type="checkbox" :id="`select-${worker.id}`"
+                                :data-value="worker.id" checked />
+                            <label class="form-check-label" :for="`select-${worker.id}`">{{ worker.name }}</label>
+                        </div>
+                    </div>
+
                     <!-- <div class="app-calendar-events-filter text-heading">
-                        <div class="form-check form-check-danger mb-5 ms-2">
-                            <input class="form-check-input input-filter" type="checkbox" id="select-personal"
-                                data-value="personal" checked />
-                            <label class="form-check-label" for="select-personal">Personal</label>
+                        <div class="form-check form-check-warning mb-5 ms-2">
+                            <input class="form-check-input input-filter" type="checkbox" id="select-pending"
+                                data-value="pending" checked />
+                            <label class="form-check-label" for="select-pending">Pending</label>
                         </div>
                         <div class="form-check mb-5 ms-2">
-                            <input class="form-check-input input-filter" type="checkbox" id="select-business"
-                                data-value="business" checked />
-                            <label class="form-check-label" for="select-business">Business</label>
-                        </div>
-                        <div class="form-check form-check-warning mb-5 ms-2">
-                            <input class="form-check-input input-filter" type="checkbox" id="select-family"
-                                data-value="family" checked />
-                            <label class="form-check-label" for="select-family">Family</label>
+                            <input class="form-check-input input-filter" type="checkbox" id="select-approved"
+                                data-value="approved" checked />
+                            <label class="form-check-label" for="select-approved">Approved</label>
                         </div>
                         <div class="form-check form-check-success mb-5 ms-2">
-                            <input class="form-check-input input-filter" type="checkbox" id="select-holiday"
-                                data-value="holiday" checked />
-                            <label class="form-check-label" for="select-holiday">Holiday</label>
+                            <input class="form-check-input input-filter" type="checkbox" id="select-completed"
+                                data-value="completed" checked />
+                            <label class="form-check-label" for="select-completed">Completed</label>
                         </div>
-                        <div class="form-check form-check-info ms-2">
-                            <input class="form-check-input input-filter" type="checkbox" id="select-etc"
-                                data-value="etc" checked />
-                            <label class="form-check-label" for="select-etc">ETC</label>
+                        <div class="form-check form-check-danger mb-5 ms-2">
+                            <input class="form-check-input input-filter" type="checkbox" id="select-cancelled"
+                                data-value="cancelled" checked />
+                            <label class="form-check-label" for="select-cancelled">Cancelled</label>
                         </div>
                     </div> -->
                 </div>
@@ -77,12 +80,35 @@
                     </div>
                     <div class="offcanvas-body">
                         <form class="event-form pt-0" id="eventForm" onsubmit="return false">
-                            <!-- <div class="mb-5">
-                                <label class="form-label" for="eventTitle">Title</label>
-                                <input type="text" class="form-control" id="eventTitle" name="eventTitle"
-                                    placeholder="Event Title" />
-                            </div>
                             <div class="mb-5">
+                                <div class="mb-5">
+                                    <label class="form-label" for="customerSelectBox">{{ $t('Customer') }}</label>
+                                    <select class="select2 form-select" data-allow-clear="true">
+                                        <option value="" selected disabled>{{ $t('SelectValue') }}</option>
+                                        <option value="fb6aaf9f-3eaf-4606-8860-1d88e4caa2d6">
+                                            Mert Demirkıran</option>
+                                        <option value="fb6aaf9f-3eaf-4606-8860-1d88e4caa2d2">
+                                            Tolgahan Özcan</option>
+                                    </select>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label" for="eventStartDate">{{ $t('StartDate') }}</label>
+                                    <input type="text" class="form-control" id="eventStartDate" name="eventStartDate"
+                                        :placeholder="$t('StartDate')" />
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label" for="eventEndDate">{{ $t('EndDate') }}</label>
+                                    <input type="text" class="form-control" id="eventEndDate" name="eventEndDate"
+                                        :placeholder="$t('EndDate')" />
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label" for="eventDescription">{{ $t('Description') }}</label>
+                                    <textarea class="form-control" name="eventDescription"
+                                        id="eventDescription"></textarea>
+                                </div>
+                                <div id="eventWorkerInfo"></div>
+                            </div>
+                            <!-- <div class="mb-5">
                                 <label class="form-label" for="eventLabel">Label</label>
                                 <select class="select2 select-event-label form-select" id="eventLabel"
                                     name="eventLabel">
@@ -161,21 +187,58 @@
 <script>
 import WelcomeBar from '../../components/WelcomeBar.vue';
 import { initCalendar } from '../../assets/js/calendar';
+import { initSelect2 } from '../../assets/js/forms-selects';
+
 
 export default {
     components: {
         WelcomeBar
     },
-    mounted() {
-        initCalendar([], this.$i18n.locale);
+    data() {
+        return {
+            events: [],
+            statuses: ["Pending", "Approved", "Completed", "Cancelled"],
+            workers: []
+        }
+    },
+    created() {
+        this.getCalendar();
+    },
+    methods: {
+        async getCalendar() {
+            const response = await this.$appAxios.post("/businessadmin/getCalendarInfos");
+            const events = response?.data?.data;
+            this.workers = [...new Map(
+                events.flatMap(event => event.workers)
+                    .map(worker => [worker.id, worker])
+            ).values()]
+                .sort((a, b) => a.name.localeCompare(b.name));
+
+            window.events = events.map(event => ({
+                id: event.id,
+                title: event.user.name,
+                start: event.startDate,
+                end: event.endDate,
+                allDay: false,
+                extendedProps: {
+                    status: this.statuses[event.status],
+                    workers: event.workers,
+                    user: event.user
+                }
+            }));
+
+            initCalendar(this.$i18n.locale);
+            initSelect2(this.$i18n.locale);
+        },
     }
 }
 </script>
 
 
 <style>
+@import url('../../assets/vendor/libs/select2/select2.css');
 @import url('../../assets/vendor/libs/fullcalendar/fullcalendar.css');
 @import url('../../assets/vendor/libs/quill/editor.css');
-@import url('../../assets/vendor/libs/select2/select2.css');
+@import url('../../assets/vendor/libs/bootstrap-select/bootstrap-select.css');
 @import url('../../assets/vendor/css/pages/app-calendar.css');
 </style>

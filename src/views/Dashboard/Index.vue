@@ -470,10 +470,15 @@ export default {
     async getWorkerReport(isThisMonth = true) {
 
       const endDate = new Date();
-      endDate.setMonth(isThisMonth ? endDate.getMonth() : endDate.getMonth() - 1);
-
       const startDate = new Date();
-      startDate.setMonth(isThisMonth ? endDate.getMonth() - 1 : endDate.getMonth() - 2);
+
+      if (isThisMonth) {
+        endDate.setMonth(endDate.getMonth()); // Bu ayın sonu
+        startDate.setMonth(endDate.getMonth() - 1); // Geçen ayın başlangıcı
+      } else {
+        endDate.setMonth(endDate.getMonth() - 1); // Geçen ayın sonu
+        startDate.setMonth(endDate.getMonth() - 1); // Ondan önceki ayın başlangıcı
+      }
 
       const requestBody = {
         startDate: startDate.toISOString(),

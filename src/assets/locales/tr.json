@@ -135,5 +135,10 @@
   "AscAppointmentCount": "Randevu sayısına göre artan",
   "DescAppointmentCount": "Randevu sayısına göre azalan",
   "AscTotalSpent": "Toplam harcamaya göre artan",
-  "DescTotalSpent": "Toplam harcamaya göre azalan"
+  "DescTotalSpent": "Toplam harcamaya göre azalan",
+  "NoResultFound": "Sonuç bulunamadı",
+  "StartDate": "Başlangıç Tarihi",
+  "EndDate": "Bitiş Tarihi",
+  "Description": "Açıklama",
+  "SelectValue": "Seçim yapınız"
 }

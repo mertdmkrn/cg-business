@@ -1,6 +1,6 @@
 import { Turkish } from "flatpickr/dist/l10n/tr.js";
 
-export function initCalendar(events, language) {
+export function initCalendar(language) {
     let date = new Date();
     let nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
     let nextMonth = date.getMonth() === 11 ? new Date(date.getFullYear() + 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() + 1, 1);
@@ -11,11 +11,10 @@ export function initCalendar(events, language) {
     newAppointmentSidebar = document.getElementById('newAppointmentSidebar'),
     appOverlay = document.querySelector('.app-overlay'),
     calendarsColor = {
-      Business: 'primary',
-      Holiday: 'success',
-      Personal: 'danger',
-      Family: 'warning',
-      ETC: 'info'
+      Pending: 'warning',
+      Approved: 'primary',
+      Completed: 'success',
+      Cancelled: 'danger'
     },
     offcanvasTitle = document.querySelector('.offcanvas-title'),
     btnToggleSidebar = document.querySelector('.btn-toggle-sidebar'),
@@ -23,6 +22,7 @@ export function initCalendar(events, language) {
     btnSubmit = document.querySelector('#addEventBtn'),
     btnDeleteEvent = document.querySelector('.btn-delete-event'),
     btnCancel = document.querySelector('.btn-cancel'),
+    eventWorkerInfo = document.querySelector('#eventWorkerInfo'),
     eventTitle = document.querySelector('#eventTitle'),
     eventStartDate = document.querySelector('#eventStartDate'),
     eventEndDate = document.querySelector('#eventEndDate'),
@@ -33,16 +33,19 @@ export function initCalendar(events, language) {
     eventDescription = document.querySelector('#eventDescription'),
     allDaySwitch = document.querySelector('.allDay-switch'),
     selectAll = document.querySelector('.select-all'),
-    filterInput = [].slice.call(document.querySelectorAll('.input-filter')),
     inlineCalendar = $('#inlineCalendar');
 
   let eventToUpdate,
-    currentEvents = events, // Assign app-calendar-events.js file events (assume events from API) to currentEvents (browser store/object) to manage and update calender events
+    currentEvents = window.events,
     isFormValid = false,
     inlineCalInstance;
 
   // Init event Offcanvas
   const bsNewAppointmentSidebar = new bootstrap.Offcanvas(newAppointmentSidebar);
+
+  setTimeout(() => {
+    const filterInput = [].slice.call(document.querySelectorAll('.input-filter'));
+}, 2000)
 
   //! TODO: Update Event label and guest code to JS once select removes jQuery dependency
   // Event Label (select2)
@@ -154,22 +157,26 @@ export function initCalendar(events, language) {
     btnSubmit.classList.remove('btn-add-event');
     btnDeleteEvent.classList.remove('d-none');
 
-    eventTitle.value = eventToUpdate.title;
-    start.setDate(eventToUpdate.start, true, 'Y-m-d');
-    eventToUpdate.allDay === true ? (allDaySwitch.checked = true) : (allDaySwitch.checked = false);
-    eventToUpdate.end !== null
-      ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
-      : end.setDate(eventToUpdate.start, true, 'Y-m-d');
-    eventLabel.val(eventToUpdate.extendedProps.calendar).trigger('change');
-    eventToUpdate.extendedProps.location !== undefined
-      ? (eventLocation.value = eventToUpdate.extendedProps.location)
-      : null;
-    eventToUpdate.extendedProps.guests !== undefined
-      ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
-      : null;
-    eventToUpdate.extendedProps.description !== undefined
-      ? (eventDescription.value = eventToUpdate.extendedProps.description)
-      : null;
+    eventWorkerInfo.innerHTML = eventToUpdate._def.extendedProps.workers.map(worker => 
+        `<p>${worker.name} - ${worker.businessServiceName}</p>`
+    ).join('');
+
+    // eventTitle.value = eventToUpdate.title;
+    // start.setDate(eventToUpdate.start, true, 'Y-m-d');
+    // eventToUpdate.allDay === true ? (allDaySwitch.checked = true) : (allDaySwitch.checked = false);
+    // eventToUpdate.end !== null
+    //   ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
+    //   : end.setDate(eventToUpdate.start, true, 'Y-m-d');
+    // eventLabel.val(eventToUpdate.extendedProps.calendar).trigger('change');
+    // eventToUpdate.extendedProps.location !== undefined
+    //   ? (eventLocation.value = eventToUpdate.extendedProps.location)
+    //   : null;
+    // eventToUpdate.extendedProps.guests !== undefined
+    //   ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
+    //   : null;
+    // eventToUpdate.extendedProps.description !== undefined
+    //   ? (eventDescription.value = eventToUpdate.extendedProps.description)
+    //   : null;
 
     // // Call removeEvent function
     // btnDeleteEvent.addEventListener('click', e => {
@@ -194,9 +201,12 @@ export function initCalendar(events, language) {
   }
 
   // Filter events by calender
-  function selectedCalendars() {
+  function selectedFilters() {
     let selected = [],
-      filterInputChecked = [].slice.call(document.querySelectorAll('.input-filter:checked'));
+      filterInputChecked = [].slice.call(document.querySelectorAll('.input-filter:checked')),
+      filterInput = [].slice.call(document.querySelectorAll('.input-filter'));
+    debugger;
+    if(filterInput.length === 0) return undefined;
 
     filterInputChecked.forEach(item => {
       selected.push(item.getAttribute('data-value'));
@@ -205,38 +215,16 @@ export function initCalendar(events, language) {
     return selected;
   }
 
-  // --------------------------------------------------------------------------------------------------
-  // AXIOS: fetchEvents
-  // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
-  // --------------------------------------------------------------------------------------------------
+
   function fetchEvents(info, successCallback) {
-    // Fetch Events from API endpoint reference
-    /* $.ajax(
-      {
-        url: '../../../app-assets/data/app-calendar-events.js',
-        type: 'GET',
-        success: function (result) {
-          // Get requested calendars as Array
-          var calendars = selectedCalendars();
-
-          return [result.events.filter(event => calendars.includes(event.extendedProps.calendar))];
-        },
-        error: function (error) {
-          console.log(error);
-        }
-      }
-    ); */
-
-    let calendars = selectedCalendars();
-    // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
-    // You should make an API call, look into above commented API call for reference
-    let selectedEvents = currentEvents.filter(function (event) {
-      // console.log(event.extendedProps.calendar.toLowerCase());
-      return calendars.includes(event.extendedProps.calendar.toLowerCase());
-    });
-    // if (selectedEvents.length > 0) {
+    let filters = selectedFilters();
+    let selectedEvents = filters 
+      ? currentEvents.filter(function (event) {
+        return event.extendedProps.workers && event.extendedProps.workers.some(worker => filters.includes(worker.id)) 
+      }) 
+      : currentEvents;
+    
     successCallback(selectedEvents);
-    // }
   }
 
   // Init FullCalendar
@@ -278,9 +266,9 @@ export function initCalendar(events, language) {
     initialView: 'listMonth',
     events: fetchEvents,
     plugins: [dayGridPlugin, interactionPlugin, listPlugin, timegridPlugin],
-    editable: true,
+    editable: false,
     dragScroll: true,
-    dayMaxEvents: 2,
+    dayMaxEvents: 20,
     eventResizableFromStart: true,
     customButtons: {
       sidebarToggle: {
@@ -298,10 +286,9 @@ export function initCalendar(events, language) {
             dayHeaderFormat: { weekday: 'short' }
         }
     },
-    navLinks: true, // can click day/week names to navigate views
+    navLinks: true,
     eventClassNames: function ({ event: calendarEvent }) {
-      const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar];
-      // Background Color
+      const colorName = calendarsColor[calendarEvent._def.extendedProps.status];
       return ['fc-event-' + colorName];
     },
     dateClick: function (info) {
@@ -326,7 +313,7 @@ export function initCalendar(events, language) {
     },
     viewDidMount: function () {
       modifyToggler();
-    }
+    },
   });
 
   // Render calendar
@@ -523,16 +510,20 @@ export function initCalendar(events, language) {
     });
   }
 
-  if (filterInput) {
-    filterInput.forEach(item => {
-      item.addEventListener('click', () => {
-        document.querySelectorAll('.input-filter:checked').length < document.querySelectorAll('.input-filter').length
-          ? (selectAll.checked = false)
-          : (selectAll.checked = true);
-        calendar.refetchEvents();
+  setTimeout(() => {
+    const filterInput = [].slice.call(document.querySelectorAll('.input-filter'));
+    if (filterInput) {
+      filterInput.forEach(item => {
+        item.addEventListener('click', () => {
+          document.querySelectorAll('.input-filter:checked').length < document.querySelectorAll('.input-filter').length
+            ? (selectAll.checked = false)
+            : (selectAll.checked = true);
+          calendar.refetchEvents();
+        });
       });
-    });
-  }
+    }
+  }, 2000)
+
 
   inlineCalInstance.config.onChange.push(function (date) {
     calendar.changeView(calendar.view.type, moment(date[0]).format('YYYY-MM-DD'));
