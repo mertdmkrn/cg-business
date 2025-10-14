@@ -205,7 +205,6 @@ export function initCalendar(language) {
     let selected = [],
       filterInputChecked = [].slice.call(document.querySelectorAll('.input-filter:checked')),
       filterInput = [].slice.call(document.querySelectorAll('.input-filter'));
-    debugger;
     if(filterInput.length === 0) return undefined;
 
     filterInputChecked.forEach(item => {
@@ -409,65 +408,65 @@ export function initCalendar(language) {
 
   // Add new event
   // ------------------------------------------------
-  btnSubmit.addEventListener('click', e => {
-    if (btnSubmit.classList.contains('btn-add-event')) {
-      if (isFormValid) {
-        let newEvent = {
-          id: calendar.getEvents().length + 1,
-          title: eventTitle.value,
-          start: eventStartDate.value,
-          end: eventEndDate.value,
-          startStr: eventStartDate.value,
-          endStr: eventEndDate.value,
-          display: 'block',
-          extendedProps: {
-            location: eventLocation.value,
-            guests: eventGuests.val(),
-            calendar: eventLabel.val(),
-            description: eventDescription.value
-          }
-        };
-        if (eventUrl.value) {
-          newEvent.url = eventUrl.value;
-        }
-        if (allDaySwitch.checked) {
-          newEvent.allDay = true;
-        }
-        addEvent(newEvent);
-        bsNewAppointmentSidebar.hide();
-      }
-    } else {
-      // Update event
-      // ------------------------------------------------
-      if (isFormValid) {
-        let eventData = {
-          id: eventToUpdate.id,
-          title: eventTitle.value,
-          start: eventStartDate.value,
-          end: eventEndDate.value,
-          url: eventUrl.value,
-          extendedProps: {
-            location: eventLocation.value,
-            guests: eventGuests.val(),
-            calendar: eventLabel.val(),
-            description: eventDescription.value
-          },
-          display: 'block',
-          allDay: allDaySwitch.checked ? true : false
-        };
+//   btnSubmit.addEventListener('click', e => {
+//     if (btnSubmit.classList.contains('btn-add-event')) {
+//       if (isFormValid) {
+//         let newEvent = {
+//           id: calendar.getEvents().length + 1,
+//           title: eventTitle.value,
+//           start: eventStartDate.value,
+//           end: eventEndDate.value,
+//           startStr: eventStartDate.value,
+//           endStr: eventEndDate.value,
+//           display: 'block',
+//           extendedProps: {
+//             location: eventLocation.value,
+//             guests: eventGuests.val(),
+//             calendar: eventLabel.val(),
+//             description: eventDescription.value
+//           }
+//         };
+//         if (eventUrl.value) {
+//           newEvent.url = eventUrl.value;
+//         }
+//         if (allDaySwitch.checked) {
+//           newEvent.allDay = true;
+//         }
+//         addEvent(newEvent);
+//         bsNewAppointmentSidebar.hide();
+//       }
+//     } else {
+//       // Update event
+//       // ------------------------------------------------
+//       if (isFormValid) {
+//         let eventData = {
+//           id: eventToUpdate.id,
+//           title: eventTitle.value,
+//           start: eventStartDate.value,
+//           end: eventEndDate.value,
+//           url: eventUrl.value,
+//           extendedProps: {
+//             location: eventLocation.value,
+//             guests: eventGuests.val(),
+//             calendar: eventLabel.val(),
+//             description: eventDescription.value
+//           },
+//           display: 'block',
+//           allDay: allDaySwitch.checked ? true : false
+//         };
 
-        updateEvent(eventData);
-        bsNewAppointmentSidebar.hide();
-      }
-    }
-  });
+//         updateEvent(eventData);
+//         bsNewAppointmentSidebar.hide();
+//       }
+//     }
+//   });
 
-  // Call removeEvent function
-  btnDeleteEvent.addEventListener('click', e => {
-    removeEvent(parseInt(eventToUpdate.id));
-    bsNewAppointmentSidebar.hide();
-    // eventToUpdate.remove();
-});
+//   // Call removeEvent function
+//   btnDeleteEvent.addEventListener('click', e => {
+//     removeEvent(parseInt(eventToUpdate.id));
+//     bsNewAppointmentSidebar.hide();
+//     // eventToUpdate.remove();
+// });
 
   // Reset event form inputs values
   // ------------------------------------------------

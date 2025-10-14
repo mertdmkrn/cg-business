@@ -113,7 +113,7 @@ export default {
         }, 2000);
       } catch (error) {
         this.$toastr.error(this.$t("ErrorMessage"));
-      }
+      }h
     }
   },
 };

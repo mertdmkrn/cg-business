@@ -1,19 +1,24 @@
 export function initSelect2(language) {
-  const selectPicker = $('.selectpicker'),
-    select2 = $('.select2'),
-    select2Icons = $('.select2-icons');
+  const selectPicker = $('.selectpicker');
+  const select2Elements = $('.select2');
+  const select2Icons = $('.select2-icons');
 
   if (selectPicker.length) {
     selectPicker.selectpicker();
   }
 
-  if (select2.length) {
-    select2.each(function () {
+  if (select2Elements.length) {
+    select2Elements.each(function () {
       const $this = $(this);
-      $this.wrap('<div class="position-relative"></div>').select2({
+
+      if ($this.hasClass("select2-hidden-accessible")) {
+        $this.select2("destroy");
+      }
+
+      $this.select2({
         placeholder: language === "tr" ? 'Seçim yapınız' : "Select value",
         allowClear: true,
-        dropdownParent: $this.parent(),
+        dropdownParent: $this.closest('.select2-form'),
         language: {
           noResults: function () {
             return language === "tr" ? 'Sonuç bulunamadı' : "No result found";
@@ -31,18 +36,25 @@ export function initSelect2(language) {
       if (!option.id) {
         return option.text;
       }
-      const $icon = "<i class='" + $(option.element).data('icon') + " me-2'></i>" + option.text;
-
-      return $icon;
+      return `<i class='${$(option.element).data('icon')} me-2'></i>${option.text}`;
     }
-    select2Icons.wrap('<div class="position-relative"></div>').select2({
-      dropdownParent: select2Icons.parent(),
-      allowClear: true,
-      templateResult: renderIcons,
-      templateSelection: renderIcons,
-      escapeMarkup: function (es) {
-        return es;
-      },
+
+    select2Icons.each(function () {
+      const $this = $(this);
+
+      if ($this.hasClass("select2-hidden-accessible")) {
+        $this.select2("destroy");
+      }
+
+      $this.select2({
+        dropdownParent: $this.closest('.select2-form'),
+        allowClear: true,
+        templateResult: renderIcons,
+        templateSelection: renderIcons,
+        escapeMarkup: function (es) {
+          return es;
+        },
+      });
     });
   }
 }

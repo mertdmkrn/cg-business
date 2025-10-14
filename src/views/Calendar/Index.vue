@@ -70,116 +70,130 @@
                     </div>
                 </div>
                 <div class="app-overlay"></div>
-                <!-- FullCalendar Offcanvas -->
                 <div class="offcanvas offcanvas-end event-sidebar" tabindex="-1" id="newAppointmentSidebar"
                     aria-labelledby="newAppointmentSidebarLabel">
                     <div class="offcanvas-header border-bottom">
                         <h5 class="offcanvas-title" id="newAppointmentSidebarLabel">{{ $t('AddAppointment') }}</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body">
-                        <form class="event-form pt-0" id="eventForm" onsubmit="return false">
+
+                    <div class="offcanvas-body flex-grow-1 overflow-auto">
+                        <div v-if="appointmentStep === 1" class="event-form pt-0">
                             <div class="mb-5">
-                                <div class="mb-5">
+                                <div class="mb-5 select2-form">
                                     <label class="form-label" for="customerSelectBox">{{ $t('Customer') }}</label>
                                     <select class="select2 form-select" data-allow-clear="true">
                                         <option value="" selected disabled>{{ $t('SelectValue') }}</option>
-                                        <option value="fb6aaf9f-3eaf-4606-8860-1d88e4caa2d6">
-                                            Mert Demirkıran</option>
-                                        <option value="fb6aaf9f-3eaf-4606-8860-1d88e4caa2d2">
-                                            Tolgahan Özcan</option>
+                                        <option value="fb6aaf9f-3eaf-4606-8860-1d88e4caa2d6">Mert Demirkıran</option>
+                                        <option value="fb6aaf9f-3eaf-4606-8860-1d88e4caa2d2">Tolgahan Özcan</option>
                                     </select>
                                 </div>
+
                                 <div class="mb-5">
-                                    <label class="form-label" for="eventStartDate">{{ $t('StartDate') }}</label>
-                                    <input type="text" class="form-control" id="eventStartDate" name="eventStartDate"
-                                        :placeholder="$t('StartDate')" />
+                                    <label class="form-label">{{ $t('Services') }}</label>
+                                    <div class="accordion mt-1 p-0" id="accordionWithIcon">
+                                        <div class="accordion-item card border">
+                                            <h2 class="accordion-header d-flex align-items-center">
+                                                <button type="button" class="accordion-button" data-bs-toggle="collapse"
+                                                    data-bs-target="#accordionWithIcon-1" aria-expanded="true">
+                                                    <i class="ti ti-star me-2"></i>
+                                                    Header Option 1
+                                                </button>
+                                            </h2>
+                                            <div id="accordionWithIcon-1" class="accordion-collapse collapse show"
+                                                data-bs-parent="#accordionWithIcon">
+                                                <div class="accordion-body p-0 border-top">
+                                                    <div class="list-group border-none">
+                                                        <a href="javascript:void(0);" class="list-group-item list-group-item-action d-flex justify-content-between waves-effect border-none">
+                                                            <div class="li-wrapper d-flex justify-content-start align-items-center">
+                                                                <div class="list-content">
+                                                                    <h6 class="mb-1">List group item heading</h6>
+                                                                    <small class="text-muted">Donec id elit non mi porta.</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <button type="button" class="btn rounded-pill btn-icon btn-success waves-effect waves-light">
+                                                                    <span class="ti ti-check ti-md"></span>
+                                                                </button>
+                                                            </div>
+                                                        </a>
+                                                        <a href="javascript:void(0);" class="list-group-item list-group-item-action d-flex justify-content-between waves-effect border-none">
+                                                            <div class="li-wrapper d-flex justify-content-start align-items-center">
+                                                                <div class="list-content">
+                                                                    <h6 class="mb-1">List group item heading</h6>
+                                                                    <small class="text-muted">Donec id elit non mi porta.</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <button type="button" class="btn rounded-pill btn-icon btn-success waves-effect waves-light">
+                                                                    <span class="ti ti-check ti-md"></span>
+                                                                </button>
+                                                            </div>
+                                                        </a>
+                                                        <a href="javascript:void(0);" class="list-group-item list-group-item-action d-flex justify-content-between waves-effect border-none">
+                                                            <div class="li-wrapper d-flex justify-content-start align-items-center">
+                                                                <div class="list-content">
+                                                                    <h6 class="mb-1">List group item heading</h6>
+                                                                    <small class="text-muted">
+                                                                        <span>60-90 min</span>
+                                                                        <b class="m-2">•</b>
+                                                                        <span>1000 ₺</span>
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <button type="button" class="btn rounded-pill btn-icon btn-light waves-effect waves-light">
+                                                                    <span class="ti ti-plus ti-md"></span>
+                                                                </button>
+                                                            </div>
+                                                        </a>
+                                                    </div>                                          
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="mb-5">
-                                    <label class="form-label" for="eventEndDate">{{ $t('EndDate') }}</label>
-                                    <input type="text" class="form-control" id="eventEndDate" name="eventEndDate"
-                                        :placeholder="$t('EndDate')" />
-                                </div>
-                                <div class="mb-5">
-                                    <label class="form-label" for="eventDescription">{{ $t('Description') }}</label>
-                                    <textarea class="form-control" name="eventDescription"
-                                        id="eventDescription"></textarea>
-                                </div>
-                                <div id="eventWorkerInfo"></div>
                             </div>
-                            <!-- <div class="mb-5">
-                                <label class="form-label" for="eventLabel">Label</label>
-                                <select class="select2 select-event-label form-select" id="eventLabel"
-                                    name="eventLabel">
-                                    <option data-label="primary" value="Business" selected>Business</option>
-                                    <option data-label="danger" value="Personal">Personal</option>
-                                    <option data-label="warning" value="Family">Family</option>
-                                    <option data-label="success" value="Holiday">Holiday</option>
-                                    <option data-label="info" value="ETC">ETC</option>
-                                </select>
-                            </div>
+                        </div>
+                        <div v-else-if="appointmentStep == 2" class="event-form pt-0">
                             <div class="mb-5">
-                                <label class="form-label" for="eventStartDate">Start Date</label>
-                                <input type="text" class="form-control" id="eventStartDate" name="eventStartDate"
-                                    placeholder="Start Date" />
+                                Step 2
                             </div>
+                        </div>
+                        <div v-else-if="appointmentStep == 3" class="event-form pt-0">
                             <div class="mb-5">
-                                <label class="form-label" for="eventEndDate">End Date</label>
-                                <input type="text" class="form-control" id="eventEndDate" name="eventEndDate"
-                                    placeholder="End Date" />
+                                Step 3
                             </div>
+                        </div>
+                        <div v-else-if="appointmentStep == 4" class="event-form pt-0">
                             <div class="mb-5">
-                                <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input allDay-switch" id="allDaySwitch" />
-                                    <label class="form-check-label" for="allDaySwitch">All Day</label>
-                                </div>
+                                Step 4
                             </div>
-                            <div class="mb-5">
-                                <label class="form-label" for="eventURL">Event URL</label>
-                                <input type="url" class="form-control" id="eventURL" name="eventURL"
-                                    placeholder="https://www.google.com" />
+                        </div>
+                    </div>
+
+                    <div class="offcanvas-footer border-top p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <button class="btn btn-label-secondary btn-prev waves-effect" :disabled="appointmentStep === 1" @click="appointmentStep--">
+                                    <i class="ti ti-arrow-left ti-xs me-sm-2 me-0"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                              </button>
                             </div>
-                            <div class="mb-4 select2-primary">
-                                <label class="form-label" for="eventGuests">Add Guests</label>
-                                <select class="select2 select-event-guests form-select" id="eventGuests"
-                                    name="eventGuests" multiple>
-                                    <option data-avatar="1.png" value="Jane Foster">Jane Foster</option>
-                                    <option data-avatar="3.png" value="Donna Frank">Donna Frank</option>
-                                    <option data-avatar="5.png" value="Gabrielle Robertson">Gabrielle Robertson</option>
-                                    <option data-avatar="7.png" value="Lori Spears">Lori Spears</option>
-                                    <option data-avatar="9.png" value="Sandy Vega">Sandy Vega</option>
-                                    <option data-avatar="11.png" value="Cheryl May">Cheryl May</option>
-                                </select>
-                            </div>
-                            <div class="mb-5">
-                                <label class="form-label" for="eventLocation">Location</label>
-                                <input type="text" class="form-control" id="eventLocation" name="eventLocation"
-                                    placeholder="Enter Location" />
-                            </div>
-                            <div class="mb-5">
-                                <label class="form-label" for="eventDescription">Description</label>
-                                <textarea class="form-control" name="eventDescription" id="eventDescription"></textarea>
-                            </div> -->
-                            <div class="d-flex justify-content-sm-between justify-content-start mt-6 gap-2">
-                                <div class="d-flex">
-                                    <button type="submit" id="addEventBtn" class="btn btn-primary btn-add-event me-4">
-                                        {{ $t("Add") }}
-                                    </button>
-                                    <button type="reset" class="btn btn-label-secondary btn-cancel me-sm-0 me-1"
-                                        data-bs-dismiss="offcanvas">
-                                        {{ $t("Cancel") }}
-                                    </button>
-                                </div>
-                                <button class="btn btn-label-danger btn-delete-event d-none">
-                                    {{ $t("Delete") }}
-                                </button>
-                            </div>
-                        </form>
+                            <button v-if="appointmentStep < 4" class="btn btn-primary btn-next waves-effect waves-light" :disabled="appointmentStep === 4" @click="appointmentStep++">
+                                <span class="align-middle d-sm-inline-block d-none me-sm-2">Next</span>
+                                <i class="ti ti-arrow-right ti-xs"></i>
+                            </button>
+                            <button v-else class="btn btn-success btn-ad dwaves-effect waves-light btn-add-event" :disabled="appointmentStep === 4" @click="appointmentStep++">
+                                <span class="align-middle d-sm-inline-block d-none me-sm-2">Add</span>
+                                <i class="ti ti-check ti-xs"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
-            <!-- /Calendar & Modal -->
         </div>
     </div>
 </template>
@@ -198,7 +212,8 @@ export default {
         return {
             events: [],
             statuses: ["Pending", "Approved", "Completed", "Cancelled"],
-            workers: []
+            workers: [],
+            appointmentStep: 1,
         }
     },
     created() {
